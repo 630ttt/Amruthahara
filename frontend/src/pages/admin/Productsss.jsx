@@ -185,6 +185,10 @@ function Products() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // ==============================
+  // FETCH PRODUCTS
+  // ==============================
+
   const fetchProducts = async () => {
     try {
       setLoading(true);
@@ -214,6 +218,10 @@ function Products() {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  // ==============================
+  // DELETE PRODUCT
+  // ==============================
 
   const handleDelete = async (id, name) => {
     const confirmed = window.confirm(
@@ -253,9 +261,33 @@ function Products() {
     }
   };
 
+  // ==============================
+  // PRODUCT IMAGE
+  // ==============================
+
+  const getProductImage = (product) => {
+    // New products - multiple images
+    if (
+      Array.isArray(product.images) &&
+      product.images.length > 0
+    ) {
+      return product.images[0];
+    }
+
+    // Old products - single image
+    if (product.image) {
+      return product.image;
+    }
+
+    return "";
+  };
+
+  // ==============================
+  // JSX
+  // ==============================
+
   return (
     <div style={styles.container}>
-
       <Sidebar />
 
       <main style={styles.content}>
@@ -263,7 +295,6 @@ function Products() {
         {/* HEADER */}
 
         <div style={styles.topBar}>
-
           <div>
             <h1 style={styles.heading}>
               Products
@@ -280,9 +311,7 @@ function Products() {
           >
             + Add Product
           </Link>
-
         </div>
-
 
         {/* ERROR */}
 
@@ -291,7 +320,6 @@ function Products() {
             {error}
           </div>
         )}
-
 
         {/* PRODUCT TABLE */}
 
@@ -306,7 +334,6 @@ function Products() {
           ) : products.length === 0 ? (
 
             <div style={styles.empty}>
-
               <h3>
                 No Products Found
               </h3>
@@ -315,7 +342,6 @@ function Products() {
                 Add your first product from the
                 Add Product button.
               </p>
-
             </div>
 
           ) : (
@@ -325,7 +351,6 @@ function Products() {
               <table style={styles.table}>
 
                 <thead>
-
                   <tr>
 
                     <th style={styles.th}>
@@ -353,9 +378,7 @@ function Products() {
                     </th>
 
                   </tr>
-
                 </thead>
-
 
                 <tbody>
 
@@ -363,20 +386,38 @@ function Products() {
 
                     <tr key={product._id}>
 
+                      {/* ID */}
+
                       <td style={styles.td}>
                         {index + 1}
                       </td>
 
+                      {/* PRODUCT */}
 
                       <td style={styles.td}>
 
                         <div style={styles.productCell}>
 
-                          <img
-                            src={product.image}
-                            alt={product.name}
-                            style={styles.productImage}
-                          />
+                          {getProductImage(product) ? (
+                            <img
+                              src={getProductImage(product)}
+                              alt={product.name}
+                              style={styles.productImage}
+                            />
+                          ) : (
+                            <div
+                              style={{
+                                ...styles.productImage,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                fontSize: "10px",
+                                color: "#777",
+                              }}
+                            >
+                              No Image
+                            </div>
+                          )}
 
                           <span style={styles.productName}>
                             {product.name}
@@ -386,6 +427,7 @@ function Products() {
 
                       </td>
 
+                      {/* CATEGORY */}
 
                       <td style={styles.td}>
 
@@ -395,6 +437,7 @@ function Products() {
 
                       </td>
 
+                      {/* PRICE */}
 
                       <td style={styles.td}>
 
@@ -404,6 +447,7 @@ function Products() {
 
                       </td>
 
+                      {/* STOCK */}
 
                       <td style={styles.td}>
 
@@ -419,23 +463,22 @@ function Products() {
 
                       </td>
 
+                      {/* ACTIONS */}
 
                       <td style={styles.td}>
 
                         <div style={styles.actions}>
 
-                          <button
-                            type="button"
-                            style={styles.edit}
-                            onClick={() =>
-                              alert(
-                                "Edit functionality will be connected next."
-                              )
-                            }
-                          >
-                            Edit
-                          </button>
-
+                          <Link
+  to={`/admin/products/edit/${product._id}`}
+  style={{
+    ...styles.edit,
+    textDecoration: "none",
+    display: "inline-block",
+  }}
+>
+  Edit
+</Link>
 
                           <button
                             type="button"
@@ -469,7 +512,6 @@ function Products() {
         </div>
 
       </main>
-
     </div>
   );
 }
