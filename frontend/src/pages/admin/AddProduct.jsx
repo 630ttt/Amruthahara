@@ -468,8 +468,8 @@ function AddProduct() {
               Grains
             </option>
 
-            <option value="Flowers">
-              Flowers
+            <option value="Spices">
+              Spices
             </option>
 
             <option value="Organic Foods">
@@ -559,9 +559,6 @@ function AddProduct() {
 
                   <option value="Berries">
                     Berries
-                  </option>
-                  <option value="Flowers">
-                    Flowers
                   </option>
 
                   <option value="Melons">
