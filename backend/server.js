@@ -30,7 +30,7 @@ console.log("======================================");
 // CORS
 app.use(
   cors({
-    origin: true,
+    origin:"https://amruthahara-9.onrender.com",
     credentials: true,
   })
 );
