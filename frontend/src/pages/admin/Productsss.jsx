@@ -195,7 +195,7 @@ function Products() {
       setError("");
 
       const response = await fetch(
-        "http://localhost:5000/api/products"
+        `${import.meta.env.VITE_API_BASE_URL}/api/products`
       );
 
       const data = await response.json();
@@ -234,7 +234,7 @@ function Products() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/products/${id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/products/${id}`,
         {
           method: "DELETE",
         }
