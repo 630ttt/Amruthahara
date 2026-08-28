@@ -14,6 +14,10 @@ const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
+// =====================================================
+// STARTUP LOGS
+// =====================================================
+
 console.log("🔥 RUNNING SERVER FILE:", __filename);
 console.log("======================================");
 console.log("🔥 AMRUTHAHARA BACKEND STARTING");
@@ -23,6 +27,7 @@ console.log("======================================");
 // MIDDLEWARE
 // =====================================================
 
+// CORS
 app.use(
   cors({
     origin: true,
@@ -30,12 +35,14 @@ app.use(
   })
 );
 
+// JSON body
 app.use(
   express.json({
     limit: "1000mb",
   })
 );
 
+// URL encoded body
 app.use(
   express.urlencoded({
     limit: "100mb",
@@ -53,18 +60,18 @@ app.use(
 );
 
 // =====================================================
-// TEST ROUTE
+// BASIC TEST ROUTES
 // =====================================================
 
 app.get("/", (req, res) => {
-  res.json({
+  res.status(200).json({
     success: true,
     message: "AMRUTHAHARA BACKEND IS RUNNING 🚀",
   });
 });
 
 app.get("/hello-test", (req, res) => {
-  res.json({
+  res.status(200).json({
     success: true,
     message: "AMRUTHAHARA SERVER IS WORKING",
   });
@@ -89,7 +96,7 @@ app.use("/api/phonepe", phonepeRoutes);
 // =====================================================
 
 app.get("/api/auth/test", (req, res) => {
-  res.json({
+  res.status(200).json({
     success: true,
     message: "AUTH ROUTES ARE WORKING",
   });
@@ -111,7 +118,10 @@ app.use((req, res) => {
 // =====================================================
 
 app.use((err, req, res, next) => {
-  console.error("❌ SERVER ERROR:", err);
+  console.error("======================================");
+  console.error("❌ SERVER ERROR");
+  console.error("======================================");
+  console.error(err);
 
   res.status(500).json({
     success: false,
@@ -120,18 +130,24 @@ app.use((err, req, res, next) => {
 });
 
 // =====================================================
+// PORT
+// =====================================================
+
+// Render provides process.env.PORT.
+// Local development falls back to 5000.
+const PORT = process.env.PORT || 5000;
+
+// =====================================================
 // START SERVER
 // =====================================================
 
-const PORT = process.env.PORT || 5000;
-
 const startServer = async () => {
   try {
-    console.log("🔄 Connecting to MongoDB...");
+    console.log("🔄 Starting MongoDB connection...");
 
     await connectDB();
 
-    console.log("✅ MongoDB Connected");
+    console.log("✅ MongoDB connection completed");
 
     app.listen(PORT, "0.0.0.0", () => {
       console.log("--------------------------------------");
@@ -140,8 +156,13 @@ const startServer = async () => {
       console.log("--------------------------------------");
     });
   } catch (error) {
-    console.error("❌ Server startup failed!");
-    console.error("❌ Error:", error);
+    console.error("======================================");
+    console.error("❌ SERVER STARTUP FAILED");
+    console.error("======================================");
+    console.error("Error Name:", error.name);
+    console.error("Error Message:", error.message);
+    console.error("Full Error:", error);
+
     process.exit(1);
   }
 };
