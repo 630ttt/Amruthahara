@@ -6,7 +6,7 @@ const path = require("path");
 
 const connectDB = require("./config/db");
 
-const phonepeRoutes = require("./routes/phonepeRoutes"); 
+const phonepeRoutes = require("./routes/phonepeRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const productRoutes = require("./routes/ProductRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
@@ -19,12 +19,10 @@ console.log("======================================");
 console.log("🔥 AMRUTHAHARA BACKEND STARTING");
 console.log("======================================");
 
+// =====================================================
+// MIDDLEWARE
+// =====================================================
 
-
-// Middleware
-app.use(cors());
-
-app.use(express.json({ limit: "1000mb" }));
 app.use(
   cors({
     origin: true,
@@ -32,22 +30,11 @@ app.use(
   })
 );
 
-
-// =====================================================
-// JSON
-// =====================================================
-
 app.use(
   express.json({
     limit: "1000mb",
   })
 );
-
-
-// =====================================================
-// URL ENCODED
-// =====================================================
-
 
 app.use(
   express.urlencoded({
@@ -56,17 +43,26 @@ app.use(
   })
 );
 
-
-
+// =====================================================
+// STATIC UPLOADS
+// =====================================================
 
 app.use(
   "/uploads",
-  express.static(
-    path.join(__dirname, "uploads")
-  )
+  express.static(path.join(__dirname, "uploads"))
 );
 
+// =====================================================
 // TEST ROUTE
+// =====================================================
+
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "AMRUTHAHARA BACKEND IS RUNNING 🚀",
+  });
+});
+
 app.get("/hello-test", (req, res) => {
   res.json({
     success: true,
@@ -74,30 +70,23 @@ app.get("/hello-test", (req, res) => {
   });
 });
 
-// ==========================================
-// EXISTING ROUTES
-// ==========================================
-
+// =====================================================
+// API ROUTES
+// =====================================================
 
 app.use("/api/products", productRoutes);
+
 app.use("/api/admin", adminRoutes);
 
 app.use("/api/payment", paymentRoutes);
 
 app.use("/api/auth", authRoutes);
 
-// ==========================================
-// PHONEPE ROUTES
-// ==========================================
+app.use("/api/phonepe", phonepeRoutes);
 
-app.use(
-  "/api/phonepe",
-  phonepeRoutes
-);
-
-// ==========================================
+// =====================================================
 // AUTH TEST
-// ==========================================
+// =====================================================
 
 app.get("/api/auth/test", (req, res) => {
   res.json({
@@ -106,9 +95,9 @@ app.get("/api/auth/test", (req, res) => {
   });
 });
 
-// ==========================================
+// =====================================================
 // 404 HANDLER
-// ==========================================
+// =====================================================
 
 app.use((req, res) => {
   res.status(404).json({
@@ -117,12 +106,12 @@ app.use((req, res) => {
   });
 });
 
-// ==========================================
+// =====================================================
 // ERROR HANDLER
-// ==========================================
+// =====================================================
 
 app.use((err, req, res, next) => {
-  console.error("SERVER ERROR:", err);
+  console.error("❌ SERVER ERROR:", err);
 
   res.status(500).json({
     success: false,
@@ -130,23 +119,31 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ==========================================
+// =====================================================
 // START SERVER
-// ==========================================
+// =====================================================
 
 const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
-  await connectDB();
+  try {
+    console.log("🔄 Connecting to MongoDB...");
 
-  app.listen(PORT, () => {
-    console.log("--------------------------------------");
-    console.log(`🚀 Server Running on Port ${PORT}`);
-  });
+    await connectDB();
+
+    console.log("✅ MongoDB Connected");
+
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log("--------------------------------------");
+      console.log(`🚀 Server Running on Port ${PORT}`);
+      console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
+      console.log("--------------------------------------");
+    });
+  } catch (error) {
+    console.error("❌ Server startup failed!");
+    console.error("❌ Error:", error);
+    process.exit(1);
+  }
 };
 
-startServer().catch((error) => {
-  console.error("❌ Server startup failed:", error.message);
-  process.exit(1);
-});
-
+startServer();
