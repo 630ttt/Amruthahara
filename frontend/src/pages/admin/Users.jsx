@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminLayout from "../../layouts/AdminLayout";
 
-const API_URL = "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 function Users() {
   const [users, setUsers] = useState([]);
@@ -183,6 +183,7 @@ const styles = {
     background:
       "linear-gradient(135deg, #f6f8f3 0%, #eef4ed 100%)",
     boxSizing: "border-box",
+    marginLeft:"-210px"
   },
 
   header: {
