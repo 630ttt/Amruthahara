@@ -29,7 +29,7 @@ app.use(cors());
 app.use(express.json({ limit: "1000mb" }));
 app.use(
   cors({
-    origin: true,
+    origin: "https://amruthahara-9.onrender.com",
     credentials: true,
   })
 );
