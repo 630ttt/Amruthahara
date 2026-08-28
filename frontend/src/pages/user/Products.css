@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
 
-.amrutha-products-page { --amrutha-products-forest:#173F2A; --amrutha-products-deep:#0B2B1B; --amrutha-products-cream:#FAF7F0; --amrutha-products-paper:#FFFDF8; --amrutha-products-soft:#F1F5ED; --amrutha-products-gold:#C79A45; --amrutha-products-ink:#18231D; --amrutha-products-muted:#68736B; --amrutha-products-border:#DDE5DC; min-height:100vh; background:var(--amrutha-products-cream); color:var(--amrutha-products-ink); font-family:'DM Sans',sans-serif; overflow:hidden; }
-.amrutha-products-page * { box-sizing:border-box; }
+
 .amrutha-products-page main { overflow:hidden; }
 .amrutha-products-hero { position:relative; min-height:440px; display:flex; align-items:center; padding:70px max(7vw,32px); background:var(--amrutha-products-cream); overflow:hidden; }
 .amrutha-products-hero::after { content:""; position:absolute; right:-110px; bottom:-180px; width:500px; height:500px; border:1px solid #c79a454d; border-radius:50%; }

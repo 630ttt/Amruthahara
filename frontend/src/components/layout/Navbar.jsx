@@ -6,6 +6,8 @@ import {
   FaHeart,
   FaShoppingCart,
   FaUser,
+  FaBars,
+  FaTimes,
 } from "react-icons/fa";
 
 import { useAuth } from "../../context/AuthContext";
@@ -56,6 +58,7 @@ const styles = {
     letterSpacing: "0.3px",
     padding: "8px 0",
     transition: "color 0.25s ease",
+    whiteSpace: "nowrap",
   },
 
   searchBox: {
@@ -199,6 +202,20 @@ const styles = {
     justifyContent: "center",
     boxSizing: "border-box",
   },
+
+  mobileMenuButton: {
+    display: "none",
+    width: "38px",
+    height: "38px",
+    border: "1px solid rgba(23,92,56,0.15)",
+    borderRadius: "8px",
+    background: "#F1F7F2",
+    color: "#245E3C",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    flexShrink: 0,
+  },
 };
 
 function Navbar() {
@@ -209,12 +226,27 @@ function Navbar() {
   const [searchFocused, setSearchFocused] = useState(false);
   const [hoveredLink, setHoveredLink] = useState("");
   const [hoveredIcon, setHoveredIcon] = useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
 
   return (
     <>
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600;700;800&display=swap');
+
+          * {
+            box-sizing: border-box;
+          }
+
+          .amruthahara-navbar {
+            width: 100%;
+            max-width: 100%;
+            overflow: visible;
+          }
 
           .amruthahara-logo-image {
             width: 155px;
@@ -270,27 +302,115 @@ function Navbar() {
             transform: translateY(-2px);
           }
 
-          @media (max-width: 1150px) {
-            .amruthahara-nav-links {
-              gap: 20px !important;
-            }
+          .amruthahara-mobile-menu-button {
+            display: none !important;
+          }
 
-            .amruthahara-search {
-              max-width: 210px !important;
-            }
+          .amruthahara-mobile-menu {
+            display: none;
+          }
+
+          /*
+            ==========================================
+            LARGE TV - 1920px AND ABOVE
+            ==========================================
+          */
+
+          @media (min-width: 1920px) {
 
             .amruthahara-navbar {
-              gap: 18px !important;
+              min-height: 88px !important;
+              padding-left: 6% !important;
+              padding-right: 6% !important;
+              gap: 45px !important;
             }
 
             .amruthahara-logo-image {
-              width: 140px;
+              width: 180px !important;
+              height: 74px !important;
+            }
+
+            .amruthahara-nav-links {
+              gap: 42px !important;
+              margin-left: 20px !important;
+            }
+
+            .amruthahara-nav-link {
+              font-size: 14px !important;
+            }
+
+            .amruthahara-search {
+              max-width: 360px !important;
+              height: 46px !important;
+            }
+
+            .amruthahara-search input {
+              font-size: 13px !important;
+            }
+
+            .amruthahara-right {
+              gap: 30px !important;
+            }
+
+            .amruthahara-icons {
+              gap: 25px !important;
+            }
+
+            .amruthahara-icon {
+              font-size: 19px !important;
+            }
+
+            .amruthahara-login,
+            .amruthahara-register,
+            .amruthahara-account {
+              height: 44px !important;
+              font-size: 13px !important;
             }
           }
 
-          @media (max-width: 950px) {
+          /*
+            ==========================================
+            LARGE DESKTOP - 1600px TO 1919px
+            ==========================================
+          */
+
+          @media (min-width: 1600px) and (max-width: 1919px) {
+
+            .amruthahara-navbar {
+              padding-left: 5.5% !important;
+              padding-right: 5.5% !important;
+              gap: 35px !important;
+            }
+
+            .amruthahara-logo-image {
+              width: 165px !important;
+            }
+
             .amruthahara-nav-links {
-              display: none !important;
+              gap: 34px !important;
+            }
+
+            .amruthahara-search {
+              max-width: 320px !important;
+            }
+          }
+
+          /*
+            ==========================================
+            DESKTOP - 1366px TO 1599px
+            ==========================================
+          */
+
+          @media (min-width: 1366px) and (max-width: 1599px) {
+
+            .amruthahara-navbar {
+              padding-left: 4.5% !important;
+              padding-right: 4.5% !important;
+              gap: 25px !important;
+            }
+
+            .amruthahara-nav-links {
+              gap: 27px !important;
             }
 
             .amruthahara-search {
@@ -298,16 +418,252 @@ function Navbar() {
             }
           }
 
-          @media (max-width: 700px) {
+          /*
+            ==========================================
+            LAPTOP - 1151px TO 1365px
+            ==========================================
+          */
+
+          @media (min-width: 1151px) and (max-width: 1365px) {
+
             .amruthahara-navbar {
-              padding: 0 20px !important;
+              padding-left: 3% !important;
+              padding-right: 3% !important;
+              gap: 18px !important;
+            }
+
+            .amruthahara-logo-image {
+              width: 140px !important;
+              height: 62px !important;
+            }
+
+            .amruthahara-nav-links {
+              gap: 18px !important;
+              margin-left: 0 !important;
+            }
+
+            .amruthahara-nav-link {
+              font-size: 11px !important;
+            }
+
+            .amruthahara-search {
+              max-width: 205px !important;
+              min-width: 130px !important;
+            }
+
+            .amruthahara-right {
+              gap: 14px !important;
+            }
+
+            .amruthahara-icons {
+              gap: 14px !important;
+            }
+
+            .amruthahara-login,
+            .amruthahara-register,
+            .amruthahara-account {
+              padding-left: 10px !important;
+              padding-right: 10px !important;
+            }
+          }
+
+          /*
+            ==========================================
+            SMALL LAPTOP / TABLET LANDSCAPE
+            951px TO 1150px
+            ==========================================
+          */
+
+          @media (min-width: 951px) and (max-width: 1150px) {
+
+            .amruthahara-navbar {
+              padding-left: 2.5% !important;
+              padding-right: 2.5% !important;
+              gap: 15px !important;
+            }
+
+            .amruthahara-logo-image {
+              width: 130px !important;
+              height: 60px !important;
+            }
+
+            .amruthahara-nav-links {
+              gap: 14px !important;
+              margin-left: 0 !important;
+            }
+
+            .amruthahara-nav-link {
+              font-size: 10px !important;
+            }
+
+            .amruthahara-search {
+              max-width: 175px !important;
+              min-width: 110px !important;
+              height: 36px !important;
+            }
+
+            .amruthahara-search input {
+              font-size: 10px !important;
+            }
+
+            .amruthahara-right {
+              gap: 10px !important;
+            }
+
+            .amruthahara-auth {
+              gap: 5px !important;
+            }
+
+            .amruthahara-login,
+            .amruthahara-register,
+            .amruthahara-account {
+              height: 34px !important;
+              padding-left: 8px !important;
+              padding-right: 8px !important;
+              font-size: 9px !important;
+            }
+
+            .amruthahara-icons {
+              gap: 11px !important;
+            }
+
+            .amruthahara-icon {
+              font-size: 14px !important;
+            }
+          }
+
+          /*
+            ==========================================
+            TABLET - 768px TO 950px
+            ==========================================
+          */
+
+          @media (min-width: 768px) and (max-width: 950px) {
+
+            .amruthahara-navbar {
+              min-height: 72px !important;
+              padding: 0 25px !important;
+              gap: 15px !important;
+            }
+
+            .amruthahara-logo-image {
+              width: 135px !important;
+              height: 60px !important;
+            }
+
+            .amruthahara-nav-links {
+              display: none !important;
+            }
+
+            .amruthahara-search {
+              max-width: 280px !important;
+              min-width: 180px !important;
+              margin-left: auto !important;
+            }
+
+            .amruthahara-auth {
+              display: flex !important;
+            }
+
+            .amruthahara-login,
+            .amruthahara-register,
+            .amruthahara-account {
+              height: 36px !important;
+              padding-left: 11px !important;
+              padding-right: 11px !important;
+              font-size: 10px !important;
+            }
+
+            .amruthahara-right {
+              gap: 12px !important;
+            }
+
+            .amruthahara-icons {
+              gap: 14px !important;
+            }
+
+            .amruthahara-mobile-menu-button {
+              display: flex !important;
+            }
+          }
+
+          /*
+            ==========================================
+            MOBILE LARGE - 600px TO 767px
+            ==========================================
+          */
+
+          @media (min-width: 600px) and (max-width: 767px) {
+
+            .amruthahara-navbar {
               min-height: 70px !important;
+              padding: 0 22px !important;
               gap: 12px !important;
             }
 
             .amruthahara-logo-image {
-              width: 125px;
-              height: 58px;
+              width: 125px !important;
+              height: 58px !important;
+            }
+
+            .amruthahara-nav-links {
+              display: none !important;
+            }
+
+            .amruthahara-search {
+              display: flex !important;
+              max-width: 190px !important;
+              min-width: 120px !important;
+              height: 36px !important;
+              margin-left: auto !important;
+            }
+
+            .amruthahara-search input {
+              font-size: 10px !important;
+            }
+
+            .amruthahara-auth {
+              display: none !important;
+            }
+
+            .amruthahara-right {
+              gap: 10px !important;
+            }
+
+            .amruthahara-icons {
+              gap: 13px !important;
+            }
+
+            .amruthahara-icon {
+              font-size: 15px !important;
+            }
+
+            .amruthahara-mobile-menu-button {
+              display: flex !important;
+            }
+          }
+
+          /*
+            ==========================================
+            MOBILE - 480px TO 599px
+            ==========================================
+          */
+
+          @media (min-width: 480px) and (max-width: 599px) {
+
+            .amruthahara-navbar {
+              min-height: 68px !important;
+              padding: 0 18px !important;
+              gap: 10px !important;
+            }
+
+            .amruthahara-logo-image {
+              width: 120px !important;
+              height: 56px !important;
+            }
+
+            .amruthahara-nav-links {
+              display: none !important;
             }
 
             .amruthahara-search {
@@ -319,26 +675,310 @@ function Navbar() {
             }
 
             .amruthahara-right {
-              gap: 14px !important;
+              gap: 10px !important;
+              margin-left: auto !important;
             }
 
             .amruthahara-icons {
-              gap: 15px !important;
+              gap: 13px !important;
+            }
+
+            .amruthahara-icon {
+              font-size: 15px !important;
+            }
+
+            .amruthahara-mobile-menu-button {
+              display: flex !important;
+              width: 36px !important;
+              height: 36px !important;
             }
           }
 
-          @media (max-width: 400px) {
+          /*
+            ==========================================
+            SMALL PHONE - 360px TO 479px
+            ==========================================
+          */
+
+          @media (min-width: 360px) and (max-width: 479px) {
+
             .amruthahara-navbar {
+              min-height: 64px !important;
               padding: 0 15px !important;
+              gap: 7px !important;
             }
 
             .amruthahara-logo-image {
-              width: 110px;
-              height: 54px;
+              width: 110px !important;
+              height: 53px !important;
+            }
+
+            .amruthahara-nav-links {
+              display: none !important;
+            }
+
+            .amruthahara-search {
+              display: none !important;
+            }
+
+            .amruthahara-auth {
+              display: none !important;
+            }
+
+            .amruthahara-right {
+              gap: 7px !important;
+              margin-left: auto !important;
             }
 
             .amruthahara-icons {
-              gap: 12px !important;
+              gap: 10px !important;
+            }
+
+            .amruthahara-icon {
+              font-size: 14px !important;
+            }
+
+            .amruthahara-mobile-menu-button {
+              display: flex !important;
+              width: 34px !important;
+              height: 34px !important;
+            }
+
+            .amruthahara-mobile-menu-button svg {
+              font-size: 14px !important;
+            }
+
+            .amruthahara-icon-wrapper {
+              width: 22px !important;
+              height: 22px !important;
+            }
+
+            .amruthahara-badge {
+              min-width: 15px !important;
+              height: 15px !important;
+              font-size: 7px !important;
+              top: -7px !important;
+              right: -8px !important;
+            }
+          }
+
+          /*
+            ==========================================
+            VERY SMALL PHONE - BELOW 360px
+            ==========================================
+          */
+
+          @media (max-width: 359px) {
+
+            .amruthahara-navbar {
+              min-height: 60px !important;
+              padding: 0 10px !important;
+              gap: 5px !important;
+            }
+
+            .amruthahara-logo-image {
+              width: 95px !important;
+              height: 50px !important;
+            }
+
+            .amruthahara-nav-links {
+              display: none !important;
+            }
+
+            .amruthahara-search {
+              display: none !important;
+            }
+
+            .amruthahara-auth {
+              display: none !important;
+            }
+
+            .amruthahara-right {
+              gap: 5px !important;
+              margin-left: auto !important;
+            }
+
+            .amruthahara-icons {
+              gap: 7px !important;
+            }
+
+            .amruthahara-icon {
+              font-size: 13px !important;
+            }
+
+            .amruthahara-mobile-menu-button {
+              display: flex !important;
+              width: 32px !important;
+              height: 32px !important;
+            }
+
+            .amruthahara-icon-wrapper {
+              width: 20px !important;
+              height: 20px !important;
+            }
+
+            .amruthahara-badge {
+              min-width: 14px !important;
+              height: 14px !important;
+              font-size: 6px !important;
+              top: -6px !important;
+              right: -7px !important;
+            }
+          }
+
+          /*
+            ==========================================
+            MOBILE MENU
+            ==========================================
+          */
+
+          .amruthahara-mobile-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: min(320px, 85vw);
+            height: 100vh;
+            background: #FFFFFF;
+            z-index: 2000;
+            padding: 85px 25px 30px;
+            box-shadow: -10px 0 40px rgba(20,55,32,0.15);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+          }
+
+          .amruthahara-mobile-menu.open {
+            display: block;
+            transform: translateX(0);
+          }
+
+          .amruthahara-mobile-close {
+            position: absolute;
+            top: 22px;
+            right: 20px;
+            width: 38px;
+            height: 38px;
+            border: 1px solid rgba(23,92,56,0.12);
+            border-radius: 8px;
+            background: #F1F7F2;
+            color: #245E3C;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+          }
+
+          .amruthahara-mobile-search {
+            width: 100%;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid rgba(23,92,56,0.13);
+            border-radius: 50px;
+            padding: 0 14px;
+            background: #F7FAF6;
+            margin-bottom: 25px;
+          }
+
+          .amruthahara-mobile-search input {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-family: Inter, Arial, sans-serif;
+            font-size: 12px;
+            color: #263D2E;
+          }
+
+          .amruthahara-mobile-links {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+          }
+
+          .amruthahara-mobile-link {
+            width: 100%;
+            padding: 16px 5px;
+            border-bottom: 1px solid rgba(23,92,56,0.08);
+            text-decoration: none;
+            color: #45554B;
+            font-family: Inter, Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+          }
+
+          .amruthahara-mobile-link:hover {
+            color: #245E3C;
+            padding-left: 10px;
+          }
+
+          .amruthahara-mobile-auth {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 25px;
+          }
+
+          .amruthahara-mobile-login,
+          .amruthahara-mobile-register,
+          .amruthahara-mobile-account {
+            width: 100%;
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 7px;
+            text-decoration: none;
+            font-family: Inter, Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+          }
+
+          .amruthahara-mobile-login {
+            border: 1px solid rgba(23,92,56,0.25);
+            background: #FFFFFF;
+            color: #24563B;
+          }
+
+          .amruthahara-mobile-register {
+            border: 1px solid #245E3C;
+            background: linear-gradient(135deg, #245E3C, #39764B);
+            color: #FFFFFF;
+          }
+
+          .amruthahara-mobile-account {
+            gap: 8px;
+            background: #F1F7F2;
+            border: 1px solid rgba(23,92,56,0.10);
+            color: #245E3C;
+          }
+
+          .amruthahara-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.35);
+            z-index: 1500;
+          }
+
+          .amruthahara-overlay.open {
+            display: block;
+          }
+
+          @media (max-width: 950px) {
+
+            .amruthahara-mobile-menu-button {
+              display: flex !important;
+            }
+          }
+
+          @media (min-width: 951px) {
+
+            .amruthahara-mobile-menu,
+            .amruthahara-overlay {
+              display: none !important;
             }
           }
         `}
@@ -357,6 +997,7 @@ function Navbar() {
           to="/"
           className="amruthahara-logo"
           style={styles.logoWrapper}
+          onClick={closeMobileMenu}
         >
           <img
             src="/images/amruthahara-logo.png"
@@ -365,9 +1006,8 @@ function Navbar() {
           />
         </Link>
 
-
         {/* ================================
-            NAVIGATION
+            DESKTOP NAVIGATION
         ================================= */}
 
         <nav
@@ -391,7 +1031,6 @@ function Navbar() {
             Home
           </Link>
 
-
           <Link
             to="/products"
             className="amruthahara-nav-link"
@@ -408,7 +1047,6 @@ function Navbar() {
             Products
           </Link>
 
-
           <Link
             to="/our-story"
             className="amruthahara-nav-link"
@@ -424,7 +1062,6 @@ function Navbar() {
           >
             Our Story
           </Link>
-
 
           <Link
             to="/bowl"
@@ -458,9 +1095,7 @@ function Navbar() {
             Subscription
           </Link>
 
-
         </nav>
-
 
         {/* ================================
             SEARCH
@@ -496,7 +1131,6 @@ function Navbar() {
           />
 
         </div>
-
 
         {/* ================================
             RIGHT SECTION
@@ -548,7 +1182,6 @@ function Navbar() {
 
           )}
 
-
           {/* ================================
               WISHLIST + CART
           ================================= */}
@@ -560,7 +1193,10 @@ function Navbar() {
 
             {/* WISHLIST */}
 
-            <div style={styles.iconWrapper}>
+            <div
+              className="amruthahara-icon-wrapper"
+              style={styles.iconWrapper}
+            >
 
               <Link
                 to="/wishlist"
@@ -584,17 +1220,22 @@ function Navbar() {
               </Link>
 
               {wishlistCount > 0 && (
-                <span style={styles.badge}>
+                <span
+                  className="amruthahara-badge"
+                  style={styles.badge}
+                >
                   {wishlistCount}
                 </span>
               )}
 
             </div>
 
-
             {/* CART */}
 
-            <div style={styles.iconWrapper}>
+            <div
+              className="amruthahara-icon-wrapper"
+              style={styles.iconWrapper}
+            >
 
               <Link
                 to="/cart"
@@ -618,7 +1259,10 @@ function Navbar() {
               </Link>
 
               {cartCount > 0 && (
-                <span style={styles.badge}>
+                <span
+                  className="amruthahara-badge"
+                  style={styles.badge}
+                >
                   {cartCount}
                 </span>
               )}
@@ -627,9 +1271,190 @@ function Navbar() {
 
           </div>
 
+          {/* ================================
+              MOBILE MENU BUTTON
+          ================================= */}
+
+          <button
+            type="button"
+            className="amruthahara-mobile-menu-button"
+            style={styles.mobileMenuButton}
+            onClick={() =>
+              setMobileMenuOpen(!mobileMenuOpen)
+            }
+            aria-label={
+              mobileMenuOpen
+                ? "Close menu"
+                : "Open menu"
+            }
+          >
+            {mobileMenuOpen ? (
+              <FaTimes />
+            ) : (
+              <FaBars />
+            )}
+          </button>
+
         </div>
 
       </header>
+
+      {/* ================================
+          MOBILE OVERLAY
+      ================================= */}
+
+      <div
+        className={`amruthahara-overlay ${
+          mobileMenuOpen ? "open" : ""
+        }`}
+        onClick={closeMobileMenu}
+      />
+
+      {/* ================================
+          MOBILE MENU
+      ================================= */}
+
+      <aside
+        className={`amruthahara-mobile-menu ${
+          mobileMenuOpen ? "open" : ""
+        }`}
+      >
+
+        <button
+          type="button"
+          className="amruthahara-mobile-close"
+          onClick={closeMobileMenu}
+          aria-label="Close menu"
+        >
+          <FaTimes />
+        </button>
+
+        {/* MOBILE SEARCH */}
+
+        <div className="amruthahara-mobile-search">
+
+          <FaSearch
+            size={13}
+            color="#52755C"
+          />
+
+          <input
+            type="text"
+            placeholder="Search products..."
+          />
+
+        </div>
+
+        {/* MOBILE NAVIGATION */}
+
+        <nav className="amruthahara-mobile-links">
+
+          <Link
+            to="/"
+            className="amruthahara-mobile-link"
+            onClick={closeMobileMenu}
+          >
+            Home
+          </Link>
+
+          <Link
+            to="/products"
+            className="amruthahara-mobile-link"
+            onClick={closeMobileMenu}
+          >
+            Products
+          </Link>
+
+          <Link
+            to="/our-story"
+            className="amruthahara-mobile-link"
+            onClick={closeMobileMenu}
+          >
+            Our Story
+          </Link>
+
+          <Link
+            to="/bowl"
+            className="amruthahara-mobile-link"
+            onClick={closeMobileMenu}
+          >
+            Bowl
+          </Link>
+
+          <Link
+            to="/subscription"
+            className="amruthahara-mobile-link"
+            onClick={closeMobileMenu}
+          >
+            Subscription
+          </Link>
+
+          <Link
+            to="/wishlist"
+            className="amruthahara-mobile-link"
+            onClick={closeMobileMenu}
+          >
+            Wishlist
+            {wishlistCount > 0
+              ? ` (${wishlistCount})`
+              : ""}
+          </Link>
+
+          <Link
+            to="/cart"
+            className="amruthahara-mobile-link"
+            onClick={closeMobileMenu}
+          >
+            Cart
+            {cartCount > 0
+              ? ` (${cartCount})`
+              : ""}
+          </Link>
+
+        </nav>
+
+        {/* MOBILE AUTH */}
+
+        {!isAuthenticated ? (
+
+          <div className="amruthahara-mobile-auth">
+
+            <Link
+              to="/login"
+              className="amruthahara-mobile-login"
+              onClick={closeMobileMenu}
+            >
+              Login
+            </Link>
+
+            <Link
+              to="/register"
+              className="amruthahara-mobile-register"
+              onClick={closeMobileMenu}
+            >
+              Create Account
+            </Link>
+
+          </div>
+
+        ) : (
+
+          <div className="amruthahara-mobile-auth">
+
+            <Link
+              to="/dashboard"
+              className="amruthahara-mobile-account"
+              onClick={closeMobileMenu}
+            >
+              <FaUser size={13} />
+              My Account
+            </Link>
+
+          </div>
+
+        )}
+
+      </aside>
     </>
   );
 }

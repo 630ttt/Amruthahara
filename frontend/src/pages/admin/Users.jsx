@@ -183,6 +183,7 @@ const styles = {
     background:
       "linear-gradient(135deg, #f6f8f3 0%, #eef4ed 100%)",
     boxSizing: "border-box",
+    marginLeft:"-210px"
   },
 
   header: {

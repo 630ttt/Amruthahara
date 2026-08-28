@@ -6,6 +6,7 @@ import ProductCard from "../../components/product/ProductCard";
 function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
@@ -18,18 +19,34 @@ function Products() {
   }, []);
 
   const loadProducts = async () => {
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 10000);
+
     try {
-      const response = await fetch("http://localhost:5000/api/products");
+      const response = await fetch("http://localhost:5000/api/products", {
+        signal: controller.signal,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Products request failed (${response.status})`);
+      }
+
       const data = await response.json();
       console.log("PRODUCTS FROM BACKEND:", data);
       if (data.success) {
         setProducts(data.products || []);
       } else {
-        console.error("Product API failed:", data);
+        throw new Error(data.message || "Product API failed");
       }
     } catch (error) {
       console.error("PRODUCT FETCH ERROR:", error);
+      setLoadError(
+        error.name === "AbortError"
+          ? "Products are taking too long to load. Please try again."
+          : "Unable to load products. Please try again."
+      );
     } finally {
+      window.clearTimeout(timeoutId);
       setLoading(false);
     }
   };
@@ -152,9 +169,9 @@ function Products() {
     <>
       <Navbar />
 
-      <div style={styles.page}>
-        <div style={styles.heroSection}>
-          <div style={styles.heroContent}>
+      <div className="products-route-page" style={styles.page}>
+        <div className="products-route-hero" style={styles.heroSection}>
+          <div className="products-route-hero-content" style={styles.heroContent}>
             <p style={styles.smallTitle}>PREMIUM ORGANIC COLLECTION</p>
             <h1 style={styles.heading}>Shop Organic Goodness</h1>
             <p style={styles.description}>
@@ -181,8 +198,8 @@ function Products() {
           </div>
         </div>
 
-        <div style={styles.main}>
-          <aside style={styles.sidebar}>
+        <div className="products-route-main" style={styles.main}>
+          <aside className="products-route-sidebar" style={styles.sidebar}>
             <div style={styles.sidebarTop}>
               <h3 style={styles.sidebarMainTitle}>Filters</h3>
 
@@ -349,8 +366,8 @@ function Products() {
             </div>
           </aside>
 
-          <section style={styles.productsArea}>
-            <div style={styles.toolbar}>
+          <section className="products-route-area" style={styles.productsArea}>
+            <div className="products-route-toolbar" style={styles.toolbar}>
               <div style={styles.activeTags}>
                 <span style={styles.activeLabel}>
                   {filteredProducts.length} Products
@@ -452,8 +469,25 @@ function Products() {
               </div>
             )}
 
-            {!loading && filteredProducts.length > 0 && (
-              <div style={styles.grid}>
+            {!loading && loadError && (
+              <div style={styles.empty}>
+                <h2 style={styles.emptyHeading}>Products unavailable</h2>
+                <p style={styles.emptyText}>{loadError}</p>
+                <button
+                  style={styles.emptyButton}
+                  onClick={() => {
+                    setLoadError("");
+                    setLoading(true);
+                    loadProducts();
+                  }}
+                >
+                  Try Again
+                </button>
+              </div>
+            )}
+
+            {!loading && !loadError && filteredProducts.length > 0 && (
+              <div className="products-route-grid" style={styles.grid}>
                 {filteredProducts.map((product, index) => (
                   <div
                     key={product._id || product.id || index}
@@ -479,7 +513,7 @@ function Products() {
               </div>
             )}
 
-            {!loading && filteredProducts.length === 0 && (
+            {!loading && !loadError && filteredProducts.length === 0 && (
               <div style={styles.empty}>
                 <div style={styles.emptyIcon}>🛒</div>
 

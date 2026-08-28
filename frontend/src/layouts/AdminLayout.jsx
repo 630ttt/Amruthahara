@@ -4,12 +4,16 @@ import Sidebar from "../components/layout/Sidebar";
 function AdminLayout({ children }) {
   return (
     <>
-      <Sidebar />
+      <div className="admin-sidebar-shell">
+        <Sidebar />
+      </div>
      
 
       <div
+        className="admin-layout-content"
         style={{
-          marginLeft: "250px",
+          
+          marginLeft:"450px"
          
         
           
