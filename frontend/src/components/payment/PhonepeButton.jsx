@@ -24,7 +24,7 @@ const PhonePeButton = ({
       );
 
       const response = await fetch(
-        "http://localhost:5000/api/phonepe/create-order",
+        `${import.meta.env.VITE_API_BASE_URL}/api/phonepe/create-order`,
         {
           method: "POST",
           headers: {
