@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/layout/Navbar";
 import { Link } from "react-router-dom";
-const API_URL = "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function BuildYourBowl() {
   const [inventory, setInventory] = useState([]);
