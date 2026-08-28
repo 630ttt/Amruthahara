@@ -5,7 +5,7 @@ import { FaArrowLeft, FaBoxOpen } from "react-icons/fa";
 import UserSidebar from "../../components/user/UserSidebar";
 import { useAuth } from "../../context/AuthContext";
 
-const API_URL = "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const styles = {
   page: {
