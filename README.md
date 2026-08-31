@@ -1,5 +1,5 @@
 # Amruthahara
- This is our complete overview document.This is very usefull
+ This is our complete overview document.This is very usefull and very imposrtant 
 Amruthahara is a full-stack millet and organic-food e-commerce platform. Customers browse products, build custom millet bowls, check out with Cash on Delivery / Razorpay / PhonePe, and track orders. Admins manage catalog, users, orders, and sales analytics.
 
 | Layer | Stack |
