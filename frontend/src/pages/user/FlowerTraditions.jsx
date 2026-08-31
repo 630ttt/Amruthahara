@@ -1,5 +1,6 @@
 import Navbar from "../../components/layout/Navbar";
 import { Link } from "react-router-dom";
+import AdyaFooter from "../../components/home/AdyaFooter";
 
 const articles = [
   {
@@ -364,6 +365,7 @@ const FlowerTraditions = () => {
           }
         }
       `}</style>
+      <AdyaFooter />
     </div>
   );
 };
