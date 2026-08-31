@@ -1,0 +1,876 @@
+/* Home page */
+
+.amrutha-section {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.amrutha-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 45px;
+}
+
+.amrutha-eyebrow {
+  margin: 0 0 12px;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #789c5b;
+}
+
+.amrutha-section-heading h2 {
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(38px, 4vw, 62px);
+  line-height: 0.95;
+  font-weight: 500;
+  color: #173f2a;
+}
+
+.amrutha-section-heading h2 em {
+  font-style: italic;
+  color: #789c5b;
+}
+
+.amrutha-section-heading > p {
+  max-width: 330px;
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #68766c;
+}
+
+/* Categories */
+
+.amrutha-category-section {
+  padding: 100px 5%;
+  background: #f7faf6;
+}
+
+.amrutha-category-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+.amrutha-category-tile {
+  position: relative;
+  min-height: 360px;
+  overflow: hidden;
+  border-radius: 4px;
+  text-decoration: none;
+  background: #173f2a;
+}
+
+.amrutha-category-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.amrutha-category-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(10, 35, 20, 0.9),
+    rgba(10, 35, 20, 0.05) 65%
+  );
+}
+
+.amrutha-category-tile:hover img {
+  transform: scale(1.06);
+}
+
+.amrutha-category-tile > div {
+  position: absolute;
+  z-index: 2;
+  left: 24px;
+  right: 20px;
+  bottom: 24px;
+}
+
+.amrutha-category-tile span {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.78);
+  font-family: Inter, Arial, sans-serif;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.amrutha-category-tile h3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  color: #fff;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 27px;
+  font-weight: 600;
+}
+
+.amrutha-category-tile h3 svg {
+  font-size: 13px;
+  transition: transform 0.3s ease;
+}
+
+.amrutha-category-tile:hover h3 svg {
+  transform: translateX(5px);
+}
+
+/* Products */
+
+.amrutha-products-wrap {
+  padding: 100px 5%;
+  background: #ffffff;
+}
+
+/* Story */
+
+.amrutha-story-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 650px;
+  background: #edf4eb;
+}
+
+.amrutha-story-image {
+  position: relative;
+  min-height: 600px;
+  overflow: hidden;
+}
+
+.amrutha-story-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.amrutha-story-image > span {
+  position: absolute;
+  left: 40px;
+  bottom: 40px;
+  color: #fff;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 30px;
+  line-height: 0.95;
+  text-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+}
+
+.amrutha-story-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 9%;
+}
+
+.amrutha-story-copy h2 {
+  margin: 0 0 28px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(42px, 4vw, 62px);
+  line-height: 0.95;
+  font-weight: 500;
+  color: #173f2a;
+}
+
+.amrutha-story-copy h2 em {
+  font-style: italic;
+  color: #789c5b;
+}
+
+.amrutha-story-copy > p:not(.amrutha-eyebrow) {
+  max-width: 520px;
+  color: #657268;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.amrutha-story-copy ul {
+  list-style: none;
+  padding: 0;
+  margin: 25px 0 30px;
+}
+
+.amrutha-story-copy li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  color: #35543f;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 13px;
+}
+
+.amrutha-story-copy li svg {
+  color: #789c5b;
+  font-size: 12px;
+}
+
+.amrutha-primary-button,
+.amrutha-light-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: fit-content;
+  padding: 14px 22px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  transition: all 0.25s ease;
+}
+
+.amrutha-primary-button {
+  color: #fff;
+  background: #245e3c;
+}
+
+.amrutha-primary-button:hover {
+  transform: translateY(-2px);
+  background: #173f2a;
+}
+
+/* Process */
+
+.amrutha-process-section {
+  padding: 100px 5%;
+  background: #fff;
+}
+
+.amrutha-process-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.amrutha-process-step {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.amrutha-process-step > span {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 30px;
+  color: #789c5b;
+}
+
+.amrutha-process-step strong {
+  color: #274532;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.amrutha-process-step i {
+  margin-left: auto;
+  color: #a5b4a8;
+  font-size: 12px;
+}
+
+/* Quality */
+
+.amrutha-quality-banner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 550px;
+  background: #173f2a;
+}
+
+.amrutha-quality-banner > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 10%;
+}
+
+.amrutha-quality-banner h2 {
+  margin: 0 0 25px;
+  color: #fff;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(42px, 4vw, 62px);
+  line-height: 0.95;
+  font-weight: 500;
+}
+
+.amrutha-quality-banner h2 em {
+  color: #a8c985;
+  font-style: italic;
+}
+
+.amrutha-quality-banner > div > p:not(.amrutha-eyebrow) {
+  max-width: 430px;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: Inter, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.amrutha-quality-banner img {
+  width: 100%;
+  height: 100%;
+  min-height: 550px;
+  object-fit: cover;
+}
+
+.amrutha-light-button {
+  margin-top: 20px;
+  color: #173f2a;
+  background: #fff;
+}
+
+.amrutha-light-button:hover {
+  transform: translateY(-2px);
+}
+
+/* Featured */
+
+.amrutha-featured-section {
+  padding: 100px 5%;
+  background: #f7faf6;
+}
+
+.amrutha-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 35px;
+  overflow-x: auto;
+}
+
+.amrutha-tabs button {
+  padding: 10px 18px;
+  border: 1px solid rgba(23, 63, 42, 0.15);
+  border-radius: 50px;
+  background: transparent;
+  color: #526158;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.amrutha-tabs .amrutha-tab-active {
+  color: #fff;
+  background: #245e3c;
+  border-color: #245e3c;
+}
+
+.amrutha-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.amrutha-featured-card {
+  min-width: 0;
+}
+
+.amrutha-featured-image {
+  position: relative;
+  height: 350px;
+  overflow: hidden;
+  margin-bottom: 18px;
+  background: #edf2eb;
+}
+
+.amrutha-featured-image > span {
+  position: absolute;
+  z-index: 2;
+  top: 14px;
+  left: 14px;
+  padding: 6px 9px;
+  color: #fff;
+  background: #b96a63;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.amrutha-featured-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.amrutha-featured-card:hover .amrutha-featured-image img {
+  transform: scale(1.04);
+}
+
+.amrutha-featured-card > p {
+  margin: 0 0 5px;
+  color: #789c5b;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.amrutha-featured-card h3 {
+  margin: 0 0 5px;
+  color: #173f2a;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 25px;
+}
+
+.amrutha-featured-card small {
+  display: block;
+  min-height: 40px;
+  color: #718077;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.amrutha-featured-card > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 14px;
+}
+
+.amrutha-featured-card > div:last-child strong {
+  color: #173f2a;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 14px;
+}
+
+.amrutha-featured-card del {
+  color: #9ca59f;
+  font-size: 11px;
+}
+
+.amrutha-featured-card a {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  color: #245e3c;
+  text-decoration: none;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* Offer */
+
+.amrutha-offer-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 80px 8%;
+  background: #e7efe3;
+}
+
+.amrutha-offer-banner h2 {
+  margin: 0 0 20px;
+  color: #173f2a;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(42px, 4vw, 60px);
+  line-height: 0.95;
+  font-weight: 500;
+}
+
+.amrutha-offer-banner h2 em {
+  color: #789c5b;
+}
+
+.amrutha-offer-banner > div > p:not(.amrutha-eyebrow) {
+  color: #68766c;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 14px;
+}
+
+.amrutha-offer-circle {
+  width: 190px;
+  height: 190px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #245e3c;
+  color: #fff;
+}
+
+.amrutha-offer-circle span {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 62px;
+  line-height: 0.8;
+}
+
+.amrutha-offer-circle small {
+  display: block;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 12px;
+}
+
+.amrutha-offer-circle svg {
+  margin-top: 20px;
+  color: #a8c985;
+}
+
+/* Reviews */
+
+.amrutha-review-section {
+  padding: 100px 5%;
+  background: #fff;
+}
+
+.amrutha-review-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.amrutha-review-controls button {
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(23, 63, 42, 0.15);
+  border-radius: 50%;
+  background: #fff;
+  color: #245e3c;
+  cursor: pointer;
+}
+
+.amrutha-review-card {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 55px;
+  text-align: center;
+  background: #f7faf6;
+}
+
+.amrutha-review-card > svg {
+  color: #789c5b;
+  font-size: 22px;
+}
+
+.amrutha-stars {
+  margin: 20px 0;
+  color: #b99645;
+  letter-spacing: 4px;
+}
+
+.amrutha-review-card blockquote {
+  margin: 0 auto 25px;
+  color: #294333;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(25px, 3vw, 38px);
+  line-height: 1.2;
+}
+
+.amrutha-review-card strong,
+.amrutha-review-card > span {
+  display: block;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.amrutha-review-card strong {
+  color: #173f2a;
+  font-size: 12px;
+}
+
+.amrutha-review-card > span {
+  margin-top: 5px;
+  color: #89938c;
+  font-size: 10px;
+}
+
+/* Journal */
+
+.amrutha-journal-section {
+  padding: 100px 5%;
+  background: #f7faf6;
+}
+
+.amrutha-text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.amrutha-dark-link {
+  color: #245e3c;
+}
+
+.amrutha-journal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.amrutha-journal-card {
+  text-decoration: none;
+}
+
+.amrutha-journal-art {
+  position: relative;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  background: #dce8d8;
+  overflow: hidden;
+}
+
+.amrutha-journal-art-2 {
+  background: #d6dfd0;
+}
+
+.amrutha-journal-art-3 {
+  background: #e3e6d4;
+}
+
+.amrutha-journal-art svg {
+  width: 55px;
+  height: 55px;
+  padding: 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  color: #245e3c;
+}
+
+.amrutha-journal-card p {
+  margin: 0 0 6px;
+  color: #789c5b;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.amrutha-journal-card h3 {
+  margin: 0 0 15px;
+  color: #173f2a;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.amrutha-journal-card > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #245e3c;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* Newsletter */
+
+.amrutha-newsletter {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  padding: 100px 8%;
+  background: #173f2a;
+}
+
+.amrutha-newsletter .amrutha-eyebrow {
+  color: #a8c985;
+}
+
+.amrutha-newsletter h2 {
+  margin: 0 0 20px;
+  color: #fff;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(40px, 4vw, 58px);
+  line-height: 0.95;
+  font-weight: 500;
+}
+
+.amrutha-newsletter h2 em {
+  color: #a8c985;
+}
+
+.amrutha-newsletter > div > p:not(.amrutha-eyebrow) {
+  max-width: 450px;
+  color: rgba(255, 255, 255, 0.68);
+  font-family: Inter, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.amrutha-newsletter form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.amrutha-newsletter label {
+  margin-bottom: 10px;
+  color: #fff;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 11px;
+}
+
+.amrutha-newsletter form > div {
+  display: flex;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.amrutha-newsletter input {
+  flex: 1;
+  min-width: 0;
+  padding: 15px 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.amrutha-newsletter input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.amrutha-newsletter button {
+  width: 45px;
+  border: none;
+  background: transparent;
+  color: #a8c985;
+  cursor: pointer;
+}
+
+.amrutha-newsletter small {
+  margin-top: 12px;
+  color: rgba(255, 255, 255, 0.45);
+  font-family: Inter, Arial, sans-serif;
+  font-size: 9px;
+}
+
+/* Responsive */
+
+@media (max-width: 1000px) {
+  .amrutha-category-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .amrutha-featured-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .amrutha-process-row {
+    flex-wrap: wrap;
+  }
+
+  .amrutha-process-step {
+    min-width: 30%;
+  }
+}
+
+@media (max-width: 750px) {
+  .amrutha-section-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .amrutha-category-section,
+  .amrutha-products-wrap,
+  .amrutha-process-section,
+  .amrutha-featured-section,
+  .amrutha-review-section,
+  .amrutha-journal-section {
+    padding: 70px 20px;
+  }
+
+  .amrutha-category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .amrutha-category-tile {
+    min-height: 300px;
+  }
+
+  .amrutha-story-section,
+  .amrutha-quality-banner,
+  .amrutha-newsletter {
+    grid-template-columns: 1fr;
+  }
+
+  .amrutha-story-image,
+  .amrutha-quality-banner img {
+    min-height: 400px;
+  }
+
+  .amrutha-story-copy,
+  .amrutha-quality-banner > div {
+    padding: 60px 25px;
+  }
+
+  .amrutha-process-step {
+    min-width: 45%;
+  }
+
+  .amrutha-offer-banner {
+    padding: 70px 25px;
+  }
+
+  .amrutha-offer-circle {
+    width: 150px;
+    height: 150px;
+  }
+
+  .amrutha-journal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .amrutha-newsletter {
+    gap: 40px;
+    padding: 70px 25px;
+  }
+}
+
+@media (max-width: 500px) {
+  .amrutha-category-grid,
+  .amrutha-featured-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .amrutha-category-tile {
+    min-height: 360px;
+  }
+
+  .amrutha-featured-image {
+    height: 330px;
+  }
+
+  .amrutha-process-step {
+    min-width: 100%;
+  }
+
+  .amrutha-offer-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .amrutha-review-card {
+    padding: 35px 20px;
+  }
+}
