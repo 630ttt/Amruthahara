@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../../components/layout/Sidebar";
+import { API_BASE_URL } from "../../services/apiBase";
 
 const styles = {
   container: {
@@ -195,7 +196,7 @@ function Products() {
       setError("");
 
       const response = await fetch(
-        "https://amruthahara-2.onrender.com/api/products"
+        `${API_BASE_URL}/api/products`
       );
 
       const data = await response.json();
@@ -234,7 +235,7 @@ function Products() {
 
     try {
       const response = await fetch(
-        `https://amruthahara-2.onrender.com/api/products/${id}`,
+        `${API_BASE_URL}/api/products/${id}`,
         {
           method: "DELETE",
         }
