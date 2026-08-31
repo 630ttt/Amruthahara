@@ -4,7 +4,7 @@ import Sidebar from "../../components/layout/Sidebar";
 
 const API_BASE_URL =
   import.meta.env.VITE_API_URL ||
-  "https://amruthahara-2.onrender.com";
+  "https://amruthahara-backend.onrender.com";
 
 // =====================================================
 // EXACT ORDER STATUSES
