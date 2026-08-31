@@ -8,6 +8,7 @@ import {
   FaLeaf,
 } from "react-icons/fa";
 import { useWishlist } from "../../context/WishlistContext";
+import { toPublicApiUrl } from "../../services/apiBase";
 
 const styles = {
   card: {
@@ -280,13 +281,14 @@ function ProductCard({ product, variant = "default" }) {
   // ===============================
   // PRODUCT IMAGE
   // ===============================
-  const productImage =
+  const productImage = toPublicApiUrl(
     product?.images?.[0] ||
-    product?.image ||
-    product?.imageUrl ||
-    product?.productImage ||
-    product?.thumbnail ||
-    "/placeholder-product.png";
+      product?.image ||
+      product?.imageUrl ||
+      product?.productImage ||
+      product?.thumbnail ||
+      "/placeholder-product.png"
+  );
 
   // ===============================
   // ADD TO CART
