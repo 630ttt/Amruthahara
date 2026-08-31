@@ -1,4 +1,4 @@
-const API_BASE = "https://amruthahara-2.onrender.com";
+const API_BASE = "https://amruthahara-backend.onrender.com";
 
 export async function apiFetch(endpoint, options = {}) {
   const token = localStorage.getItem("adminToken");
