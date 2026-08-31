@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -14,9 +15,6 @@ import {
 import Navbar from "../../components/layout/Navbar";
 import Hero from "../../components/home/Hero";
 import ProductSection from "../../components/product/ProductSection";
-
-
-
 
 import AdyaFooter from "../../components/home/AdyaFooter";
 
@@ -107,18 +105,25 @@ const reviews = [
   ],
 ];
 
+/* =========================================
+   JOURNAL STORIES + VIDEOS
+========================================= */
+
 const stories = [
   [
     "Everyday Wellness",
     "5 nourishing breakfast ideas for busy mornings",
+    "/Videos/everyday-wellness.mp4",
   ],
   [
     "Know Your Food",
     "How to choose a genuinely pure cooking oil",
+    "/Videos/know-your-food.mp4",
   ],
   [
     "Traditional Wisdom",
     "Why millets belong in every modern kitchen",
+    "/Videos/traditional-wisdom.mp4",
   ],
 ];
 
@@ -169,12 +174,6 @@ function Home() {
         ========================================== */}
 
         <Hero />
-
-        {/* =========================================
-            HERO BANNER
-        ========================================== */}
-
-
 
         {/* =========================================
             CATEGORIES
@@ -253,10 +252,6 @@ function Home() {
 
           <ProductSection />
         </section>
-
-        
-
-
 
         {/* =========================================
             OUR STORY
@@ -530,12 +525,6 @@ function Home() {
         </section>
 
         {/* =========================================
-            TESTIMONIAL
-        ========================================== */}
-
-      
-
-        {/* =========================================
             REVIEWS
         ========================================== */}
 
@@ -607,7 +596,8 @@ function Home() {
         </section>
 
         {/* =========================================
-            JOURNAL
+            JOURNAL / FROM OUR KITCHEN
+            3 VIDEO CARDS
         ========================================== */}
 
         <section className="amrutha-journal-section">
@@ -624,39 +614,40 @@ function Home() {
               </h2>
             </div>
 
-            <Link
-              className="amrutha-text-button amrutha-dark-link"
-              to="/organic-living"
-            >
-              Explore organic living
-              <FaArrowRight />
-            </Link>
+            
           </div>
 
           <div className="amrutha-journal-grid">
             {stories.map(
-              ([category, title], index) => (
+              ([category, title, video], index) => (
                 <Link
-                  to="/organic-living"
+                  
                   className="amrutha-journal-card"
                   key={title}
                 >
+                  {/* VIDEO */}
                   <div
                     className={`amrutha-journal-art amrutha-journal-art-${
                       index + 1
                     }`}
                   >
-                    <FaPlay />
+                    <video
+                      src={video}
+                      muted
+                      loop
+                      autoPlay
+                      playsInline
+                      preload="metadata"
+                      aria-label={title}
+                    />
+
                   </div>
 
                   <p>{category}</p>
 
                   <h3>{title}</h3>
 
-                  <span>
-                    Read more
-                    <FaArrowRight />
-                  </span>
+                  
                 </Link>
               )
             )}
@@ -719,12 +710,6 @@ function Home() {
         </section>
 
         {/* =========================================
-            EXISTING OUR STORY COMPONENT
-        ========================================== */}
-
-
-
-        {/* =========================================
             FOOTER
         ========================================== */}
 
@@ -735,3 +720,4 @@ function Home() {
 }
 
 export default Home;
+
