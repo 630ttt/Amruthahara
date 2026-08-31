@@ -1,7 +1,7 @@
 
 const mongoose = require("mongoose");
 const Product = require("../models/Productsss");
-const { API_BASE_URL } = require("../config/apiBase");
+const { API_BASE_URL, getPublicApiBase } = require("../config/apiBase");
 
 const BASE_URL = API_BASE_URL;
 
@@ -180,7 +180,8 @@ exports.createProduct = async (req, res) => {
         "Product Created Successfully",
 
       product: formatProduct(
-        product
+        product,
+        req
       ),
     });
 
@@ -222,7 +223,7 @@ exports.getProducts = async (
     const body = {
       success: true,
       products: products.map((product) =>
-        formatProduct(product)
+        formatProduct(product, req)
       ),
     };
 
@@ -283,7 +284,7 @@ exports.getProduct = async (
       success: true,
 
       product:
-        formatProduct(product),
+        formatProduct(product, req),
     });
 
   } catch (error) {
@@ -901,7 +902,8 @@ exports.updateProduct = async (
 
       product:
         formatProduct(
-          updatedProduct
+          updatedProduct,
+          req
         ),
     });
 
@@ -975,12 +977,14 @@ exports.deleteProduct = async (
 // FORMAT PRODUCT FOR FRONTEND
 // =====================================================
 
-function formatProduct(product) {
+function formatProduct(product, req) {
 
   const obj =
     product.toObject
       ? product.toObject()
       : product;
+
+  const publicBase = getPublicApiBase(req);
 
 
   // =================================================
@@ -1000,11 +1004,14 @@ function formatProduct(product) {
           "string"
         ) {
 
-          return image;
+          return image.replace(
+            /^https?:\/\/(localhost|127\.0\.0\.1):\d+/i,
+            publicBase
+          );
         }
 
         if (image) {
-          return `${BASE_URL}/api/products/${obj._id}/image/${index}`;
+          return `${publicBase}/api/products/${obj._id}/image/${index}`;
         }
 
 
