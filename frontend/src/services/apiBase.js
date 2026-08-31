@@ -10,7 +10,7 @@ const isLocalBrowser =
 
 const API_BASE_URL = isLocalBrowser
   ? "http://localhost:5000"
-  : fromEnv || "http://localhost:5000";
+  : fromEnv || "https://amruthahara-backend.onrender.com";
 
 export default API_BASE_URL;
 export { API_BASE_URL };
