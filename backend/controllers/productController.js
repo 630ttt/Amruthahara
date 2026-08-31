@@ -1,8 +1,53 @@
 
+const mongoose = require("mongoose");
 const Product = require("../models/Productsss");
 const { API_BASE_URL } = require("../config/apiBase");
 
 const BASE_URL = API_BASE_URL;
+
+const PRODUCTS_LIST_CACHE_MS = 30 * 1000;
+
+let productsListCache = {
+  expiresAt: 0,
+  body: null,
+};
+
+const clearProductsListCache = () => {
+  productsListCache = {
+    expiresAt: 0,
+    body: null,
+  };
+};
+
+const listingImageRewrite = {
+  $map: {
+    input: { $ifNull: ["$images", []] },
+    as: "img",
+    in: {
+      $cond: [
+        { $eq: [{ $type: "$$img" }, "string"] },
+        "$$img",
+        { $literal: true },
+      ],
+    },
+  },
+};
+
+const findProductsWithoutImageData = (match = null) => {
+  const pipeline = [];
+
+  if (match) {
+    pipeline.push({ $match: match });
+  }
+
+  pipeline.push({
+    $addFields: {
+      images: listingImageRewrite,
+    },
+  });
+
+  return Product.aggregate(pipeline);
+};
 
 
 // =====================================================
@@ -125,6 +170,8 @@ exports.createProduct = async (req, res) => {
       product._id
     );
 
+    clearProductsListCache();
+
 
     res.status(201).json({
       success: true,
@@ -161,24 +208,30 @@ exports.getProducts = async (
   res
 ) => {
   try {
+    if (
+      productsListCache.body &&
+      Date.now() < productsListCache.expiresAt
+    ) {
+      return res.status(200).json(productsListCache.body);
+    }
 
-    const products =
-      await Product.find();
+    const products = await Product.find()
+      .select({ "images.data": 0 })
+      .lean();
 
-
-    const formattedProducts =
-      products.map(
-        (product) =>
-          formatProduct(product)
-      );
-
-
-    res.status(200).json({
+    const body = {
       success: true,
+      products: products.map((product) =>
+        formatProduct(product)
+      ),
+    };
 
-      products:
-        formattedProducts,
-    });
+    productsListCache = {
+      expiresAt: Date.now() + PRODUCTS_LIST_CACHE_MS,
+      body,
+    };
+
+    return res.status(200).json(body);
 
   } catch (error) {
 
@@ -204,11 +257,16 @@ exports.getProduct = async (
   res
 ) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({
+        success: false,
+        message: "Product Not Found",
+      });
+    }
 
-    const product =
-      await Product.findById(
-        req.params.id
-      );
+    const product = await Product.findById(req.params.id)
+      .select({ "images.data": 0 })
+      .lean();
 
 
     if (!product) {
@@ -272,10 +330,34 @@ exports.getProductImage = async (
     // FIND PRODUCT
     // =================================================
 
+    const imageIndex =
+      Number(
+        req.params.imageIndex
+      );
+
+    if (
+      !Number.isInteger(
+        imageIndex
+      ) ||
+      imageIndex < 0
+    ) {
+
+      return res.status(400).send(
+        "Invalid image index"
+      );
+    }
+
     const product =
       await Product.findById(
         req.params.id
-      );
+      )
+        .select({
+          _id: 1,
+          images: {
+            $slice: [imageIndex, 1],
+          },
+        })
+        .lean();
 
 
     if (!product) {
@@ -290,34 +372,8 @@ exports.getProductImage = async (
     }
 
 
-    // =================================================
-    // IMAGE INDEX
-    // =================================================
-
-    const imageIndex =
-      Number(
-        req.params.imageIndex
-      );
-
-
-    if (
-      !Number.isInteger(
-        imageIndex
-      )
-    ) {
-
-      return res.status(400).send(
-        "Invalid image index"
-      );
-    }
-
-
-    // =================================================
-    // GET IMAGE
-    // =================================================
-
     const image =
-      product.images?.[imageIndex];
+      product.images?.[0];
 
 
     if (!image) {
@@ -834,6 +890,8 @@ exports.updateProduct = async (
       updatedProduct._id
     );
 
+    clearProductsListCache();
+
 
     res.status(200).json({
       success: true,
@@ -888,6 +946,8 @@ exports.deleteProduct = async (
       });
     }
 
+    clearProductsListCache();
+
 
     res.status(200).json({
       success: true,
@@ -936,25 +996,15 @@ function formatProduct(product) {
         // =================================================
 
         if (
-          image &&
-          image.data &&
-          image.contentType
-        ) {
-
-          return `${BASE_URL}/api/products/${obj._id}/image/${index}`;
-        }
-
-
-        // =================================================
-        // OLD URL IMAGE
-        // =================================================
-
-        if (
           typeof image ===
           "string"
         ) {
 
           return image;
+        }
+
+        if (image) {
+          return `${BASE_URL}/api/products/${obj._id}/image/${index}`;
         }
 
 
