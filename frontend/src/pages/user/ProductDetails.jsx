@@ -34,7 +34,7 @@ function ProductDetails() {
       setError("");
 
       const response = await fetch(
-        `https://amruthahara-2.onrender.com/api/products/${id}`
+        `https://amruthahara-backend.onrender.com/api/products/${id}`
       );
 
       const data = await response.json();
@@ -45,7 +45,7 @@ function ProductDetails() {
       }
 
       const allResponse = await fetch(
-        "https://amruthahara-2.onrender.com/api/products"
+        "https://amruthahara-backend.onrender.com/api/products"
       );
 
       const allData = await allResponse.json();
@@ -73,7 +73,7 @@ function ProductDetails() {
 
       try {
         const response = await fetch(
-          "https://amruthahara-2.onrender.com/api/products"
+          "https://amruthahara-backend.onrender.com/api/products"
         );
 
         const data = await response.json();
