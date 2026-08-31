@@ -144,19 +144,7 @@ const Wellness = () => {
         </div>
       </main>
 
-      {/* FOOTER */}
-      <footer className="wellness-footer">
-        <h2>AMRUTHAHARA</h2>
-
-        <div className="wellness-footer-links">
-          <span>Philosophy</span>
-          <span>Heritage</span>
-          <span>Privacy</span>
-          <span>Terms</span>
-        </div>
-
-        <p>© 2026 AMRUTHAHARA JOURNAL. ALL RIGHTS RESERVED.</p>
-      </footer>
+     <AdyaFooter />
 
       <style>{`
         .wellness-page {
