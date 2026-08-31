@@ -360,6 +360,8 @@ function ProductCard({ product, variant = "default" }) {
         <img
           src={productImage}
           alt={product.name}
+          loading="lazy"
+          decoding="async"
           style={styles.image}
           onError={(e) => {
             e.currentTarget.src =
