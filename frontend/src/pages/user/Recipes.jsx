@@ -114,7 +114,8 @@ const Recipes = () => {
         </div>
       </main>
 
-    <AdyaFooter />
+      <AdyaFooter />
+  
 
       <style>{`
         .recipes-page {
