@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminLayout from "../../layouts/AdminLayout";
 
-const API_URL = "https://amruthahara-2.onrender.com";
+const API_URL = "https://amruthahara-backend.onrender.com";
 
 function Users() {
   const [users, setUsers] = useState([]);
