@@ -874,3 +874,131 @@
     padding: 35px 20px;
   }
 }
+/* =========================================
+   FROM OUR KITCHEN - VIDEO CARDS
+========================================= */
+
+.amrutha-journal-art {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #e8eee5;
+}
+
+.amrutha-journal-art video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+/* Zoom video slightly when card is hovered */
+.amrutha-journal-card:hover
+  .amrutha-journal-art
+  video {
+  transform: scale(1.05);
+}
+
+/* Dark subtle overlay */
+.amrutha-journal-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.02),
+    rgba(0, 0, 0, 0.25)
+  );
+  pointer-events: none;
+}
+
+/* Play button */
+.amrutha-video-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+}
+
+.amrutha-video-overlay svg {
+  width: 58px;
+  height: 58px;
+
+  padding: 18px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.92);
+
+  color: #29452f;
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.15);
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+.amrutha-journal-card:hover
+  .amrutha-video-overlay
+  svg {
+  transform: scale(1.1);
+  background: #ffffff;
+}
+
+/* =========================================
+   JOURNAL RESPONSIVENESS
+========================================= */
+
+@media (max-width: 1024px) {
+  .amrutha-journal-art {
+    height: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .amrutha-journal-art {
+    height: 230px;
+    border-radius: 15px;
+  }
+
+  .amrutha-video-overlay svg {
+    width: 52px;
+    height: 52px;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .amrutha-journal-art {
+    height: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  .amrutha-journal-art {
+    height: 220px;
+    border-radius: 14px;
+  }
+
+  .amrutha-video-overlay svg {
+    width: 48px;
+    height: 48px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 360px) {
+  .amrutha-journal-art {
+    height: 200px;
+  }
+}
