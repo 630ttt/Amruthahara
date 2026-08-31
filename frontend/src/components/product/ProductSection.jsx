@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductCard from "./ProductCard";
+import { API_BASE_URL } from "../../services/apiBase";
 
 function ProductSection() {
   const [products, setProducts] = useState([]);
@@ -11,7 +12,7 @@ function ProductSection() {
   const fetchProducts = async () => {
     try {
       const response = await fetch(
-        "https://amruthahara-2.onrender.com/api/products"
+        `${API_BASE_URL}/api/products`
       );
 
       const data = await response.json();
