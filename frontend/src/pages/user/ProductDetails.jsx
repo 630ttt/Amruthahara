@@ -1,28 +1,182 @@
-
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/layout/Navbar";
 import { useCart } from "../../context/CartContext";
 import "@google/model-viewer";
 
+
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+} from "react-leaflet";
+
+import "leaflet/dist/leaflet.css";
+
+import L from "leaflet";
+
+// =====================================================
+// FIX LEAFLET DEFAULT MARKER ICON
+// =====================================================
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png",
+
+  iconUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
+
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+});
+
+// =====================================================
+// API BASE URL
+// =====================================================
+
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  "https://amruthahara-2.onrender.com";
+
+// =====================================================
+// NORMALIZE IMAGE / VIDEO / MODEL URL
+// =====================================================
+
+const normalizeMediaUrl = (url) => {
+  if (!url || typeof url !== "string") {
+    return "";
+  }
+
+  const trimmedUrl = url.trim();
+
+  if (!trimmedUrl) {
+    return "";
+  }
+
+  // ---------------------------------------------------
+  // Already deployed HTTPS URL
+  // ---------------------------------------------------
+
+  if (
+    trimmedUrl.startsWith("https://") &&
+    !trimmedUrl.includes("localhost")
+  ) {
+    return trimmedUrl;
+  }
+
+  // ---------------------------------------------------
+  // Old localhost backend URL
+  // ---------------------------------------------------
+
+  if (
+    trimmedUrl.startsWith(
+      "http://localhost:5000"
+    )
+  ) {
+    return trimmedUrl.replace(
+      "http://localhost:5000",
+      API_BASE_URL
+    );
+  }
+
+  // ---------------------------------------------------
+  // Localhost 127.0.0.1
+  // ---------------------------------------------------
+
+  if (
+    trimmedUrl.startsWith(
+      "http://127.0.0.1:5000"
+    )
+  ) {
+    return trimmedUrl.replace(
+      "http://127.0.0.1:5000",
+      API_BASE_URL
+    );
+  }
+
+  // ---------------------------------------------------
+  // Relative uploads URL
+  // ---------------------------------------------------
+
+  if (
+    trimmedUrl.startsWith("/uploads/")
+  ) {
+    return `${API_BASE_URL}${trimmedUrl}`;
+  }
+
+  // ---------------------------------------------------
+  // Relative URL
+  // ---------------------------------------------------
+
+  if (
+    trimmedUrl.startsWith("/")
+  ) {
+    return `${API_BASE_URL}${trimmedUrl}`;
+  }
+
+  return trimmedUrl;
+};
+
+// =====================================================
+// ANDHRA PRADESH HARVEST LOCATION
+// =====================================================
+
+const harvestLocation = [
+  16.5062,
+  80.6480,
+];
+
+// =====================================================
+// COMPONENT
+// =====================================================
+
 function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { addToCart: contextAddToCart } = useCart();
+  const {
+    addToCart: contextAddToCart,
+  } = useCart();
 
-  const [product, setProduct] = useState(null);
-  const [allProducts, setAllProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [quantity, setQuantity] = useState(1);
-  const [selectedImage, setSelectedImage] = useState(0);
-  const [showVideo, setShowVideo] = useState(false);
-  const [show3D, setShow3D] = useState(false);
-  const [selectedSize, setSelectedSize] = useState("250g");
-  const [subscribe, setSubscribe] = useState(false);
-  const [openSection, setOpenSection] = useState("description");
-  const [added, setAdded] = useState(false);
+  const [product, setProduct] =
+    useState(null);
+
+  const [allProducts, setAllProducts] =
+    useState([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState("");
+
+  const [quantity, setQuantity] =
+    useState(1);
+
+  const [selectedImage, setSelectedImage] =
+    useState(0);
+
+  const [showVideo, setShowVideo] =
+    useState(false);
+
+  const [show3D, setShow3D] =
+    useState(false);
+
+  const [selectedSize, setSelectedSize] =
+    useState("250g");
+
+  const [openSection, setOpenSection] =
+    useState("description");
+
+  const [added, setAdded] =
+    useState(false);
+
+  // ===================================================
+  // LOAD PRODUCT
+  // ===================================================
 
   useEffect(() => {
     loadProduct();
@@ -33,68 +187,132 @@ function ProductDetails() {
       setLoading(true);
       setError("");
 
+      // -----------------------------------------------
+      // FIRST TRY SINGLE PRODUCT
+      // -----------------------------------------------
+
       const response = await fetch(
-        `https://amruthahara-backend.onrender.com/api/products/${id}`
+        `${API_BASE_URL}/api/products/${id}`
       );
 
-      const data = await response.json();
+      const data =
+        await response.json();
 
-      if (data.success && data.product) {
+      if (
+        data.success &&
+        data.product
+      ) {
         setProduct(data.product);
+
+        // Load all products separately
+        // for related products
+        try {
+          const allResponse =
+            await fetch(
+              `${API_BASE_URL}/api/products`
+            );
+
+          const allData =
+            await allResponse.json();
+
+          if (allData.success) {
+            setAllProducts(
+              allData.products || []
+            );
+          }
+        } catch (relatedError) {
+          console.error(
+            "RELATED PRODUCTS ERROR:",
+            relatedError
+          );
+        }
+
         return;
       }
 
-      const allResponse = await fetch(
-        "https://amruthahara-backend.onrender.com/api/products"
-      );
+      // -----------------------------------------------
+      // FALLBACK - ALL PRODUCTS
+      // -----------------------------------------------
 
-      const allData = await allResponse.json();
+      const allResponse =
+        await fetch(
+          `${API_BASE_URL}/api/products`
+        );
+
+      const allData =
+        await allResponse.json();
 
       if (allData.success) {
-        const products = allData.products || [];
+        const products =
+          allData.products || [];
 
         setAllProducts(products);
 
-        const foundProduct = products.find(
-          (item) =>
-            String(item._id || item.id) === String(id)
-        );
+        const foundProduct =
+          products.find(
+            (item) =>
+              String(
+                item._id || item.id
+              ) === String(id)
+          );
 
         if (foundProduct) {
           setProduct(foundProduct);
         } else {
-          setError("Product not found.");
+          setError(
+            "Product not found."
+          );
         }
       } else {
-        setError(data.message || "Product not found.");
+        setError(
+          data.message ||
+            "Product not found."
+        );
       }
     } catch (err) {
-      console.error("PRODUCT DETAILS ERROR:", err);
+      console.error(
+        "PRODUCT DETAILS ERROR:",
+        err
+      );
+
+      // -----------------------------------------------
+      // FINAL FALLBACK
+      // -----------------------------------------------
 
       try {
-        const response = await fetch(
-          "https://amruthahara-backend.onrender.com/api/products"
-        );
+        const response =
+          await fetch(
+            `${API_BASE_URL}/api/products`
+          );
 
-        const data = await response.json();
+        const data =
+          await response.json();
 
         if (data.success) {
-          const products = data.products || [];
+          const products =
+            data.products || [];
 
           setAllProducts(products);
 
-          const foundProduct = products.find(
-            (item) =>
-              String(item._id || item.id) === String(id)
-          );
+          const foundProduct =
+            products.find(
+              (item) =>
+                String(
+                  item._id || item.id
+                ) === String(id)
+            );
 
           if (foundProduct) {
             setProduct(foundProduct);
           } else {
-            setError("Product not found.");
+            setError(
+              "Product not found."
+            );
           }
         } else {
-          setError("Unable to load product details.");
+          setError(
+            "Unable to load product details."
+          );
         }
       } catch (fallbackError) {
         console.error(
@@ -102,16 +320,24 @@ function ProductDetails() {
           fallbackError
         );
 
-        setError("Unable to load product details.");
+        setError(
+          "Unable to load product details."
+        );
       }
     } finally {
       setLoading(false);
     }
   };
 
+  // ===================================================
+  // PRODUCT IMAGES
+  // ===================================================
+
   const images = useMemo(() => {
     if (!product) {
-      return ["/placeholder-product.png"];
+      return [
+        "/placeholder-product.png",
+      ];
     }
 
     const gallery =
@@ -120,17 +346,28 @@ function ProductDetails() {
       product.productImages ||
       [];
 
-    let result = Array.isArray(gallery)
+    let result = Array.isArray(
+      gallery
+    )
       ? gallery
-          .map((item) =>
-            typeof item === "string"
-              ? item
-              : item?.url ||
-                item?.image ||
-                item?.src
-          )
+          .map((item) => {
+            const imageUrl =
+              typeof item === "string"
+                ? item
+                : item?.url ||
+                  item?.image ||
+                  item?.src;
+
+            return normalizeMediaUrl(
+              imageUrl
+            );
+          })
           .filter(Boolean)
       : [];
+
+    // -----------------------------------------------
+    // MAIN IMAGE
+    // -----------------------------------------------
 
     const mainImage =
       product.image ||
@@ -138,36 +375,81 @@ function ProductDetails() {
       product.productImage ||
       product.thumbnail;
 
+    const normalizedMainImage =
+      normalizeMediaUrl(
+        mainImage
+      );
+
     if (
-      mainImage &&
-      !result.includes(mainImage)
+      normalizedMainImage &&
+      !result.includes(
+        normalizedMainImage
+      )
     ) {
-      result.unshift(mainImage);
+      result.unshift(
+        normalizedMainImage
+      );
     }
 
     return result.length
       ? result
-      : ["/placeholder-product.png"];
+      : [
+          "/placeholder-product.png",
+        ];
   }, [product]);
 
-  const basePrice = Number(product?.price || 0);
+  // ===================================================
+  // VIDEO
+  // ===================================================
+
+  const videoUrl = useMemo(() => {
+    return normalizeMediaUrl(
+      product?.video
+    );
+  }, [product]);
+
+  // ===================================================
+  // 3D MODEL
+  // ===================================================
+
+  const model3dUrl = useMemo(() => {
+    return normalizeMediaUrl(
+      product?.model3d
+    );
+  }, [product]);
+
+  // ===================================================
+  // PRICE
+  // ===================================================
+
+  const basePrice = Number(
+    product?.price || 0
+  );
 
   const price = useMemo(() => {
     if (
       product?.sizePrices &&
-      product.sizePrices[selectedSize]
+      product.sizePrices[
+        selectedSize
+      ]
     ) {
       return Number(
-        product.sizePrices[selectedSize]
+        product.sizePrices[
+          selectedSize
+        ]
       );
     }
 
     switch (selectedSize) {
       case "500g":
-        return Math.round(basePrice * 1.8);
+        return Math.round(
+          basePrice * 1.8
+        );
 
       case "1kg":
-        return Math.round(basePrice * 3.4);
+        return Math.round(
+          basePrice * 3.4
+        );
 
       case "250g":
       default:
@@ -179,40 +461,53 @@ function ProductDetails() {
     product,
   ]);
 
+  // ===================================================
+  // RELATED PRODUCTS
+  // ===================================================
+
   const relatedProducts = useMemo(() => {
     return allProducts
       .filter(
         (item) =>
-          String(item._id || item.id) !==
-          String(id)
+          String(
+            item._id || item.id
+          ) !== String(id)
       )
       .slice(0, 4);
-  }, [allProducts, id]);
+  }, [
+    allProducts,
+    id,
+  ]);
+
+  // ===================================================
+  // QUANTITY
+  // ===================================================
 
   const increaseQuantity = () => {
     setQuantity(
-      (previous) => previous + 1
+      (previous) =>
+        previous + 1
     );
   };
 
   const decreaseQuantity = () => {
     setQuantity(
       (previous) =>
-        Math.max(1, previous - 1)
+        Math.max(
+          1,
+          previous - 1
+        )
     );
   };
 
-  // =====================================================
+  // ===================================================
   // ADD TO CART
-  // =====================================================
-  // IMPORTANT:
-  // Product Details now uses ONLY CartContext.
-  // It does NOT create or maintain another "cart"
-  // localStorage key.
-  // =====================================================
+  // ===================================================
 
   const addToCart = () => {
-    if (!product) return;
+    if (!product) {
+      return;
+    }
 
     const productId =
       product._id ||
@@ -221,11 +516,14 @@ function ProductDetails() {
     const cartItem = {
       _id: `${productId}_${selectedSize}`,
 
-      productId: productId,
+      productId:
+        productId,
 
-      name: product.name,
+      name:
+        product.name,
 
-      price: price,
+      price:
+        price,
 
       image:
         images[0] ||
@@ -237,7 +535,8 @@ function ProductDetails() {
           ? images
           : [],
 
-      size: selectedSize,
+      size:
+        selectedSize,
 
       category:
         product.category ||
@@ -266,6 +565,10 @@ function ProductDetails() {
     }, 1800);
   };
 
+  // ===================================================
+  // BUY NOW
+  // ===================================================
+
   const buyNow = () => {
     addToCart();
 
@@ -273,6 +576,10 @@ function ProductDetails() {
       navigate("/cart");
     }, 100);
   };
+
+  // ===================================================
+  // RELATED PRODUCT CLICK
+  // ===================================================
 
   const handleRelatedProductClick = (
     relatedProduct
@@ -292,6 +599,10 @@ function ProductDetails() {
     );
   };
 
+  // ===================================================
+  // ACCORDION
+  // ===================================================
+
   const toggleSection = (
     section
   ) => {
@@ -302,6 +613,10 @@ function ProductDetails() {
           : section
     );
   };
+
+  // ===================================================
+  // LOADING
+  // ===================================================
 
   if (loading) {
     return (
@@ -315,12 +630,20 @@ function ProductDetails() {
     );
   }
 
-  if (error || !product) {
+  // ===================================================
+  // ERROR
+  // ===================================================
+
+  if (
+    error ||
+    !product
+  ) {
     return (
       <>
         <Navbar />
 
         <div className="pd-error">
+
           <div className="pd-error-icon">
             ⚠️
           </div>
@@ -333,11 +656,14 @@ function ProductDetails() {
           <button
             type="button"
             onClick={() =>
-              navigate("/products")
+              navigate(
+                "/products"
+              )
             }
           >
             Back to Products
           </button>
+
         </div>
       </>
     );
@@ -347,11 +673,16 @@ function ProductDetails() {
     images[selectedImage] ||
     images[0];
 
+  // ===================================================
+  // UI
+  // ===================================================
+
   return (
     <>
       <Navbar />
 
       <style>{`
+
         * {
           box-sizing: border-box;
         }
@@ -434,6 +765,7 @@ function ProductDetails() {
           );
           cursor: pointer;
           font-size: 17px;
+          z-index: 10;
         }
 
         .pd-view360 {
@@ -447,6 +779,7 @@ function ProductDetails() {
           font-size: 11px;
           font-weight: 600;
           cursor: pointer;
+          z-index: 10;
         }
 
         .pd-thumbs {
@@ -454,11 +787,13 @@ function ProductDetails() {
           align-items: center;
           gap: 10px;
           margin-top: 10px;
+          overflow-x: auto;
         }
 
         .pd-thumb {
           width: 74px;
           height: 68px;
+          flex: 0 0 auto;
           padding: 3px;
           border: 1px solid #dddddd;
           border-radius: 7px;
@@ -480,6 +815,7 @@ function ProductDetails() {
         .pd-video {
           width: 74px;
           height: 68px;
+          flex: 0 0 auto;
           border: 1px solid #dddddd;
           border-radius: 7px;
           background: #ffffff;
@@ -629,31 +965,6 @@ function ProductDetails() {
           color: #ffffff;
         }
 
-        .pd-subscribe {
-          display: flex;
-          align-items: flex-start;
-          gap: 10px;
-          margin-bottom: 15px;
-          padding: 12px;
-          border: 1px solid #dddddd;
-          border-radius: 4px;
-          background: #f9f8f4;
-        }
-
-        .pd-subscribe input {
-          margin-top: 3px;
-        }
-
-        .pd-subscribe strong {
-          font-size: 13px;
-        }
-
-        .pd-subscribe p {
-          margin: 3px 0 0;
-          color: #666666;
-          font-size: 9px;
-        }
-
         .pd-accordion {
           border-top: 1px solid #dddddd;
         }
@@ -680,6 +991,10 @@ function ProductDetails() {
           font-size: 12px;
           line-height: 1.65;
         }
+
+        /* =============================================
+           REAL MAP
+        ============================================= */
 
         .pd-source {
           margin-top: 48px;
@@ -773,40 +1088,17 @@ function ProductDetails() {
 
         .pd-map {
           position: relative;
-          height: 220px;
+          height: 320px;
           overflow: hidden;
           border-radius: 10px;
-          background:
-            linear-gradient(
-              135deg,
-              #d9f0e5,
-              #d7eee2,
-              #e8f2db
-            );
+          background: #e8f2db;
         }
 
-        .pd-map::before {
-          content: "";
-          position: absolute;
-          top: -10%;
-          left: 20%;
-          width: 60%;
-          height: 120%;
-          border-right: 3px solid
-            rgba(
-              72,
-              133,
-              92,
-              0.2
-            );
-          border-left: 4px solid
-            rgba(
-              72,
-              133,
-              92,
-              0.3
-            );
-          transform: rotate(15deg);
+        .pd-map .leaflet-container {
+          width: 100%;
+          height: 100%;
+          border-radius: 10px;
+          z-index: 1;
         }
 
         .pd-map-label {
@@ -818,7 +1110,19 @@ function ProductDetails() {
           background: #ffffff;
           font-size: 9px;
           font-weight: 600;
+          z-index: 500;
+          box-shadow:
+            0 2px 8px rgba(
+              0,
+              0,
+              0,
+              0.12
+            );
         }
+
+        /* =============================================
+           REVIEWS
+        ============================================= */
 
         .pd-reviews {
           margin-top: 52px;
@@ -939,6 +1243,10 @@ function ProductDetails() {
           cursor: pointer;
         }
 
+        /* =============================================
+           RELATED PRODUCTS
+        ============================================= */
+
         .pd-related {
           margin-top: 65px;
         }
@@ -1005,6 +1313,10 @@ function ProductDetails() {
           font-weight: 700;
         }
 
+        /* =============================================
+           LOADING / ERROR
+        ============================================= */
+
         .pd-loading,
         .pd-error {
           min-height: 75vh;
@@ -1032,7 +1344,12 @@ function ProductDetails() {
           cursor: pointer;
         }
 
+        /* =============================================
+           TABLET
+        ============================================= */
+
         @media (max-width: 900px) {
+
           .pd-wrap {
             padding: 18px 18px 50px;
           }
@@ -1079,9 +1396,18 @@ function ProductDetails() {
               1fr
             );
           }
+
+          .pd-map {
+            height: 280px;
+          }
         }
 
+        /* =============================================
+           MOBILE
+        ============================================= */
+
         @media (max-width: 600px) {
+
           .pd-wrap {
             padding: 14px 12px 40px;
           }
@@ -1123,7 +1449,7 @@ function ProductDetails() {
           }
 
           .pd-map {
-            height: 180px;
+            height: 240px;
           }
 
           .pd-review-heading {
@@ -1169,29 +1495,75 @@ function ProductDetails() {
             font-size: 10px;
           }
         }
+
+        /* =============================================
+           VERY SMALL MOBILE
+        ============================================= */
+
+        @media (max-width: 360px) {
+
+          .pd-title {
+            font-size: 26px;
+          }
+
+          .pd-source {
+            padding: 35px 14px 25px;
+          }
+
+          .pd-map {
+            height: 220px;
+          }
+
+          .pd-related-grid {
+            gap: 6px;
+          }
+
+        }
+
       `}</style>
 
       <div className="pd-page">
+
         <div className="pd-wrap">
 
+          {/* =========================================
+              BREADCRUMB
+          ========================================= */}
+
           <div className="pd-breadcrumb">
+
             HOME / SHOP /{" "}
+
             <span>
               {product.name ||
                 "PRODUCT"}
             </span>
+
           </div>
 
+          {/* =========================================
+              PRODUCT TOP
+          ========================================= */}
+
           <section className="pd-top">
+
+            {/* =======================================
+                GALLERY
+            ======================================= */}
 
             <div className="pd-gallery">
 
               <div className="pd-main-image">
 
+                {/* 3D MODEL */}
+
                 {show3D &&
-                product?.model3d ? (
+                model3dUrl ? (
+
                   <model-viewer
-                    src={product.model3d}
+                    src={
+                      model3dUrl
+                    }
                     alt={
                       product.name ||
                       "3D Product"
@@ -1200,30 +1572,46 @@ function ProductDetails() {
                     auto-rotate
                     shadow-intensity="1"
                     style={{
-                      width: "100%",
-                      height: "100%",
+                      width:
+                        "100%",
+                      height:
+                        "100%",
                       backgroundColor:
                         "#f7f7f2",
                     }}
                   />
+
                 ) : showVideo &&
-                  product?.video ? (
+                  videoUrl ? (
+
+                  /* VIDEO */
+
                   <video
-                    src={product.video}
+                    src={
+                      videoUrl
+                    }
                     controls
                     autoPlay
                     style={{
-                      width: "100%",
-                      height: "100%",
+                      width:
+                        "100%",
+                      height:
+                        "100%",
                       objectFit:
                         "contain",
                       backgroundColor:
                         "#000",
                     }}
                   />
+
                 ) : (
+
+                  /* IMAGE */
+
                   <img
-                    src={productImage}
+                    src={
+                      productImage
+                    }
                     alt={
                       product.name ||
                       "Product"
@@ -1235,7 +1623,10 @@ function ProductDetails() {
                         "/placeholder-product.png";
                     }}
                   />
+
                 )}
+
+                {/* ZOOM */}
 
                 <button
                   type="button"
@@ -1250,30 +1641,41 @@ function ProductDetails() {
                   ⌕
                 </button>
 
+                {/* 360 */}
+
                 <button
                   type="button"
                   className="pd-view360"
                   onClick={() => {
+
                     if (
-                      product?.model3d
+                      model3dUrl
                     ) {
+
                       setShow3D(
                         true
                       );
+
                       setShowVideo(
                         false
                       );
+
                     } else {
+
                       alert(
                         "No 3D model available"
                       );
+
                     }
+
                   }}
                 >
                   ◉ View 360
                 </button>
 
               </div>
+
+              {/* THUMBNAILS */}
 
               <div className="pd-thumbs">
 
@@ -1284,6 +1686,7 @@ function ProductDetails() {
                       image,
                       index
                     ) => (
+
                       <button
                         type="button"
                         key={`${image}-${index}`}
@@ -1294,54 +1697,85 @@ function ProductDetails() {
                             : ""
                         }`}
                         onClick={() => {
+
                           setSelectedImage(
                             index
                           );
+
                           setShowVideo(
                             false
                           );
+
                           setShow3D(
                             false
                           );
+
                         }}
                       >
+
                         <img
-                          src={image}
+                          src={
+                            image
+                          }
                           alt={`${product.name} ${
                             index + 1
                           }`}
+                          onError={(
+                            event
+                          ) => {
+                            event.currentTarget.src =
+                              "/placeholder-product.png";
+                          }}
                         />
+
                       </button>
+
                     )
                   )}
+
+                {/* VIDEO BUTTON */}
 
                 <button
                   type="button"
                   className="pd-video"
                   onClick={() => {
+
                     if (
-                      product?.video
+                      videoUrl
                     ) {
+
                       setShowVideo(
                         true
                       );
+
                       setShow3D(
                         false
                       );
+
                     } else {
+
                       alert(
                         "No video available"
                       );
+
                     }
+
                   }}
                 >
                   ▷
                 </button>
 
               </div>
+
             </div>
 
+            {/* =======================================
+                PRODUCT INFORMATION
+            ======================================= */}
+
             <div className="pd-info">
+
+              {/* RATING */}
 
               <div className="pd-rating">
 
@@ -1360,20 +1794,28 @@ function ProductDetails() {
 
               </div>
 
+              {/* TITLE */}
+
               <h1 className="pd-title">
                 {product.name}
               </h1>
 
+              {/* PRICE */}
+
               <div className="pd-price">
+
                 ₹
                 {price.toLocaleString(
                   "en-IN"
                 )}
+
               </div>
 
               <div className="pd-tax">
                 INCL. OF ALL TAXES
               </div>
+
+              {/* SIZE */}
 
               <div className="pd-label">
                 SIZE
@@ -1387,9 +1829,12 @@ function ProductDetails() {
                   "1kg",
                 ].map(
                   (size) => (
+
                     <button
                       type="button"
-                      key={size}
+                      key={
+                        size
+                      }
                       className={`pd-size ${
                         selectedSize ===
                         size
@@ -1404,12 +1849,17 @@ function ProductDetails() {
                     >
                       {size}
                     </button>
+
                   )
                 )}
 
               </div>
 
+              {/* ACTIONS */}
+
               <div className="pd-actions">
+
+                {/* QUANTITY */}
 
                 <div className="pd-qty">
 
@@ -1437,6 +1887,8 @@ function ProductDetails() {
 
                 </div>
 
+                {/* CART */}
+
                 <button
                   type="button"
                   className="pd-cart"
@@ -1444,55 +1896,30 @@ function ProductDetails() {
                     addToCart
                   }
                 >
+
                   {added
                     ? "✓ Added to Cart"
                     : "Add to Cart"}
+
                 </button>
 
               </div>
 
+              {/* BUY NOW */}
+
               <button
                 type="button"
                 className="pd-buy"
-                onClick={buyNow}
+                onClick={
+                  buyNow
+                }
               >
                 Buy Now
               </button>
 
-              <label className="pd-subscribe">
-
-                <input
-                  type="checkbox"
-                  checked={subscribe}
-                  onChange={(
-                    event
-                  ) =>
-                    setSubscribe(
-                      event.target
-                        .checked
-                    )
-                  }
-                />
-
-                <span>
-
-                  <strong>
-                    Subscribe & Save
-                    15%
-                  </strong>
-
-                  <p>
-                    Deliver every 30
-                    days. Cancel
-                    anytime.{" "}
-                    <u>
-                      Details
-                    </u>
-                  </p>
-
-                </span>
-
-              </label>
+              {/* =====================================
+                  DESCRIPTION / INGREDIENTS / BENEFITS
+              ===================================== */}
 
               {[
                 [
@@ -1501,27 +1928,33 @@ function ProductDetails() {
                   product.description ||
                     "Sourced directly from trusted producers, our product is pure, authentic, and carefully selected. Every batch is handled using sustainable methods while maintaining its natural quality, freshness, and nutritional value.",
                 ],
+
                 [
                   "ingredients",
                   "Ingredients",
                   product.ingredients ||
                     "100% natural ingredients. Please check the product packaging for complete ingredient information.",
                 ],
+
                 [
                   "benefits",
                   "Benefits",
                   product.benefits ||
                     "Naturally sourced, carefully processed, quality tested and suitable for everyday use.",
                 ],
+
               ].map(
                 ([
                   key,
                   title,
                   text,
                 ]) => (
+
                   <div
                     className="pd-accordion"
-                    key={key}
+                    key={
+                      key
+                    }
                   >
 
                     <button
@@ -1533,6 +1966,7 @@ function ProductDetails() {
                         )
                       }
                     >
+
                       <span>
                         {title}
                       </span>
@@ -1548,18 +1982,25 @@ function ProductDetails() {
 
                     {openSection ===
                       key && (
+
                       <div className="pd-acc-body">
                         {text}
                       </div>
+
                     )}
 
                   </div>
+
                 )
               )}
 
             </div>
 
           </section>
+
+          {/* =========================================
+              TRACEABILITY
+          ========================================= */}
 
           <section className="pd-source">
 
@@ -1582,37 +2023,45 @@ function ProductDetails() {
                 [
                   "♟",
                   "THE SOURCE",
-                  "Western Ghats Forests, Karnataka",
+                  "Andhra Pradesh, India",
                 ],
+
                 [
                   "♙",
                   "THE HARVESTER",
-                  "Soliga Tribal Cooperative",
+                  "Local farming communities",
                 ],
+
                 [
                   "❉",
                   "HARVEST",
-                  "Cruelty-free smoke extraction, Spring 2024",
+                  "Carefully harvested using sustainable methods",
                 ],
+
                 [
                   "♧",
                   "QUALITY CHECK",
-                  "Lab tested for NMR purity & pollen count",
+                  "Quality checked for freshness and purity",
                 ],
+
                 [
                   "▣",
                   "PACKAGING",
-                  "Packed in zero-plastic glass facility",
+                  "Packed carefully to preserve natural quality",
                 ],
+
               ].map(
                 ([
                   icon,
                   title,
                   text,
                 ]) => (
+
                   <div
                     className="pd-step"
-                    key={title}
+                    key={
+                      title
+                    }
                   >
 
                     <div className="pd-step-icon">
@@ -1628,18 +2077,78 @@ function ProductDetails() {
                     </div>
 
                   </div>
+
                 )
               )}
 
             </div>
 
+            {/* =======================================
+                REAL OPENSTREETMAP
+            ======================================= */}
+
             <div className="pd-map">
+
+              <MapContainer
+                center={
+                  harvestLocation
+                }
+                zoom={
+                  7
+                }
+                scrollWheelZoom={
+                  false
+                }
+                style={{
+                  width:
+                    "100%",
+                  height:
+                    "100%",
+                }}
+              >
+
+                <TileLayer
+                  attribution='&copy; OpenStreetMap contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+
+                <Marker
+                  position={
+                    harvestLocation
+                  }
+                >
+
+                  <Popup>
+
+                    <strong>
+                      Amruthahara
+                      Harvest
+                      Region
+                    </strong>
+
+                    <br />
+
+                    Andhra Pradesh,
+                    India
+
+                  </Popup>
+
+                </Marker>
+
+              </MapContainer>
+
               <span className="pd-map-label">
-                📍 Harvest Region
+                📍 Andhra Pradesh,
+                India
               </span>
+
             </div>
 
           </section>
+
+          {/* =========================================
+              REVIEWS
+          ========================================= */}
 
           <section className="pd-reviews">
 
@@ -1688,6 +2197,8 @@ function ProductDetails() {
 
             <div className="pd-review-grid">
 
+              {/* REVIEW 1 */}
+
               <article className="pd-review">
 
                 <div className="pd-avatar">
@@ -1730,7 +2241,7 @@ function ProductDetails() {
 
                   <p className="pd-review-text">
                     Absolutely the
-                    best honey I’ve
+                    best honey I've
                     tasted. You can
                     feel the rawness
                     and the earthy
@@ -1742,16 +2253,22 @@ function ProductDetails() {
                   </p>
 
                   {images[1] && (
+
                     <img
                       className="pd-review-img"
-                      src={images[1]}
+                      src={
+                        images[1]
+                      }
                       alt="Review"
                     />
+
                   )}
 
                 </div>
 
               </article>
+
+              {/* REVIEW 2 */}
 
               <article className="pd-review">
 
@@ -1815,6 +2332,10 @@ function ProductDetails() {
 
           </section>
 
+          {/* =========================================
+              RELATED PRODUCTS
+          ========================================= */}
+
           <section className="pd-related">
 
             <h2 className="pd-related-title">
@@ -1826,15 +2347,54 @@ function ProductDetails() {
 
               {relatedProducts.length >
               0 ? (
+
                 relatedProducts.map(
                   (item) => {
+
+                    // ---------------------------------
+                    // GET RELATED PRODUCT IMAGES
+                    // ---------------------------------
+
+                    const relatedImages =
+                      Array.isArray(
+                        item.images
+                      )
+                        ? item.images
+                            .map(
+                              (
+                                img
+                              ) => {
+
+                                const url =
+                                  typeof img ===
+                                  "string"
+                                    ? img
+                                    : img?.url ||
+                                      img?.image ||
+                                      img?.src;
+
+                                return normalizeMediaUrl(
+                                  url
+                                );
+
+                              }
+                            )
+                            .filter(
+                              Boolean
+                            )
+                        : [];
+
                     const image =
-                      item.image ||
-                      item.imageUrl ||
-                      item.productImage ||
-                      item.thumbnail;
+                      normalizeMediaUrl(
+                        item.image ||
+                        item.imageUrl ||
+                        item.productImage ||
+                        item.thumbnail ||
+                        relatedImages[0]
+                      );
 
                     return (
+
                       <article
                         className="pd-related-card"
                         key={
@@ -1851,13 +2411,24 @@ function ProductDetails() {
                         <div className="pd-related-img">
 
                           {image ? (
+
                             <img
-                              src={image}
+                              src={
+                                image
+                              }
                               alt={
                                 item.name
                               }
+                              onError={(
+                                event
+                              ) => {
+                                event.currentTarget.src =
+                                  "/placeholder-product.png";
+                              }}
                             />
+
                           ) : (
+
                             <div
                               style={{
                                 height:
@@ -1874,6 +2445,7 @@ function ProductDetails() {
                             >
                               No Image
                             </div>
+
                           )}
 
                         </div>
@@ -1883,6 +2455,7 @@ function ProductDetails() {
                         </div>
 
                         <div className="pd-related-price">
+
                           ₹
                           {Number(
                             item.price ||
@@ -1890,20 +2463,28 @@ function ProductDetails() {
                           ).toLocaleString(
                             "en-IN"
                           )}
+
                         </div>
 
                       </article>
+
                     );
+
                   }
                 )
+
               ) : (
+
                 <>
+
                   <article className="pd-related-card">
 
                     <div className="pd-related-img">
 
                       <img
-                        src={images[0]}
+                        src={
+                          images[0]
+                        }
                         alt={
                           product.name
                         }
@@ -1916,10 +2497,12 @@ function ProductDetails() {
                     </div>
 
                     <div className="pd-related-price">
+
                       ₹
                       {price.toLocaleString(
                         "en-IN"
                       )}
+
                     </div>
 
                   </article>
@@ -1929,7 +2512,9 @@ function ProductDetails() {
                     <div className="pd-related-img">
 
                       <img
-                        src={images[0]}
+                        src={
+                          images[0]
+                        }
                         alt={
                           product.name
                         }
@@ -1947,7 +2532,9 @@ function ProductDetails() {
                     </div>
 
                   </article>
+
                 </>
+
               )}
 
             </div>
@@ -1955,10 +2542,10 @@ function ProductDetails() {
           </section>
 
         </div>
+
       </div>
     </>
   );
 }
 
 export default ProductDetails;
-
