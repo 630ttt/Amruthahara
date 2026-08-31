@@ -1,4 +1,5 @@
 import Navbar from "../../components/layout/Navbar";
+import AdyaFooter from "../../components/home/AdyaFooter";
 import { Link } from "react-router-dom";
 
 const articles = [
@@ -119,18 +120,7 @@ const Farming = () => {
         </div>
       </main>
 
-      <footer className="farming-footer">
-        <h2>AMRUTHAHARA</h2>
-
-        <div className="farming-footer-links">
-          <span>Philosophy</span>
-          <span>Heritage</span>
-          <span>Privacy</span>
-          <span>Terms</span>
-        </div>
-
-        <p>© 2026 AMRUTHAHARA JOURNAL. ALL RIGHTS RESERVED.</p>
-      </footer>
+      <AdyaFooter />
 
       <style>{`
         .farming-page {
