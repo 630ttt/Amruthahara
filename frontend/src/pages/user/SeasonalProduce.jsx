@@ -149,18 +149,7 @@ const SeasonalProduce = () => {
       </main>
 
       {/* FOOTER */}
-      <footer className="seasonal-footer">
-        <h2>AMRUTHAHARA</h2>
-
-        <div className="seasonal-footer-links">
-          <span>Philosophy</span>
-          <span>Heritage</span>
-          <span>Privacy</span>
-          <span>Terms</span>
-        </div>
-
-        <p>© 2026 AMRUTHAHARA JOURNAL. ALL RIGHTS RESERVED.</p>
-      </footer>
+      <AdyaFooter />
 
       <style>{`
         .seasonal-page {
