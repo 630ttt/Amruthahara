@@ -11,7 +11,7 @@ import {
 
 import { useAuth } from "../../context/AuthContext";
 
-const API_URL = "https://amruthahara-2.onrender.com";
+const API_URL = "https://amruthahara-backend.onrender.com/api/products";
 
 const styles = {
   page: {
