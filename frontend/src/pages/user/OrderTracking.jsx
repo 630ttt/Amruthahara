@@ -400,7 +400,7 @@ function OrderTracking() {
           </h1>
 
           <div style={styles.id}>
-            MongoDB Order ID: {order._id}
+             Order ID: {order._id}
           </div>
 
           {/* SUMMARY */}
