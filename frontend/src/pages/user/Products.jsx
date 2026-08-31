@@ -1,3 +1,4 @@
+
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "../../components/layout/Navbar";
@@ -19,10 +20,6 @@ function Products() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  // =====================================================
-  // URL SEARCH / CATEGORY
-  // =====================================================
-
   useEffect(() => {
     const urlSearch = searchParams.get("search") || "";
     const urlCategory = searchParams.get("category") || "";
@@ -34,31 +31,22 @@ function Products() {
     }
   }, [searchParams]);
 
-  // =====================================================
-  // LOAD PRODUCTS
-  // =====================================================
-
   useEffect(() => {
     loadProducts();
   }, []);
 
   const loadProducts = async () => {
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(
+      () => controller.abort(),
+      60000
+    );
+
     try {
-      setLoading(true);
-      setLoadError("");
-
-      console.log(
-        "Fetching products from:",
-        `${API_BASE_URL}/api/products`
-      );
-
       const response = await fetch(
         `${API_BASE_URL}/api/products`,
         {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-          },
+          signal: controller.signal,
         }
       );
 
@@ -72,32 +60,23 @@ function Products() {
 
       console.log("PRODUCTS FROM BACKEND:", data);
 
-      if (!data?.success) {
+      if (data.success) {
+        setProducts(data.products || []);
+      } else {
         throw new Error(
-          data?.message || "Product API failed"
+          data.message || "Product API failed"
         );
       }
-
-      const receivedProducts = Array.isArray(
-        data.products
-      )
-        ? data.products
-        : [];
-
-      setProducts(receivedProducts);
     } catch (error) {
-      console.error(
-        "PRODUCT FETCH ERROR:",
-        error
-      );
-
-      setProducts([]);
+      console.error("PRODUCT FETCH ERROR:", error);
 
       setLoadError(
-        error?.message ||
-          "Unable to load products. Please try again."
+        error.name === "AbortError"
+          ? "Products are taking too long to load. Please try again."
+          : "Unable to load products. Please try again."
       );
     } finally {
+      window.clearTimeout(timeoutId);
       setLoading(false);
     }
   };
@@ -287,9 +266,7 @@ function Products() {
     let result = [...products];
 
     // SEARCH
-    const query = searchQuery
-      .trim()
-      .toLowerCase();
+    const query = searchQuery.trim().toLowerCase();
 
     if (query) {
       result = result.filter((product) => {
@@ -299,9 +276,7 @@ function Products() {
           product?.category,
           product?.bowlCategory,
           product?.inventoryDetails,
-          ...(Array.isArray(product?.tags)
-            ? product.tags
-            : []),
+          ...(Array.isArray(product?.tags) ? product.tags : []),
         ]
           .join(" ")
           .toLowerCase();
@@ -317,9 +292,7 @@ function Products() {
 
       result = result.filter((product) => {
         const productCategory =
-          normalizeCategory(
-            product?.category
-          );
+          normalizeCategory(product?.category);
 
         return (
           productCategory ===
@@ -411,7 +384,6 @@ function Products() {
     setSelectedDietary([]);
     setSortBy("featured");
     setSearchQuery("");
-
     navigate("/products");
   };
 
@@ -544,7 +516,9 @@ function Products() {
               )}
             </div>
 
-            {/* CATEGORY */}
+            {/* =================================================
+                CATEGORY
+            ================================================= */}
 
             <div style={styles.filterGroup}>
               <h3
@@ -631,7 +605,9 @@ function Products() {
 
             <div style={styles.line} />
 
-            {/* PRICE */}
+            {/* =================================================
+                PRICE RANGE
+            ================================================= */}
 
             <div style={styles.filterGroup}>
               <h3
@@ -703,7 +679,9 @@ function Products() {
 
             <div style={styles.line} />
 
-            {/* DIETARY */}
+            {/* =================================================
+                DIETARY
+            ================================================= */}
 
             <div style={styles.filterGroup}>
               <h3
@@ -831,7 +809,9 @@ function Products() {
 
             <div style={styles.line} />
 
-            {/* DELIVERY */}
+            {/* =================================================
+                DELIVERY
+            ================================================= */}
 
             <div
               style={
@@ -877,7 +857,9 @@ function Products() {
               styles.productsArea
             }
           >
-            {/* TOOLBAR */}
+            {/* =================================================
+                TOOLBAR
+            ================================================= */}
 
             <div
               className="products-route-toolbar"
@@ -1048,7 +1030,9 @@ function Products() {
               </div>
             </div>
 
-            {/* ACTIVE FILTER BAR */}
+            {/* =================================================
+                ACTIVE FILTER BAR
+            ================================================= */}
 
             {activeFilterCount > 0 && (
               <div
@@ -1084,7 +1068,9 @@ function Products() {
               </div>
             )}
 
-            {/* LOADING */}
+            {/* =================================================
+                LOADING
+            ================================================= */}
 
             {loading && (
               <div
@@ -1108,7 +1094,9 @@ function Products() {
               </div>
             )}
 
-            {/* ERROR */}
+            {/* =================================================
+                ERROR
+            ================================================= */}
 
             {!loading &&
               loadError && (
@@ -1146,7 +1134,9 @@ function Products() {
                 </div>
               )}
 
-            {/* PRODUCT GRID */}
+            {/* =================================================
+                PRODUCT GRID
+            ================================================= */}
 
             {!loading &&
               !loadError &&
@@ -1225,7 +1215,9 @@ function Products() {
                 </div>
               )}
 
-            {/* NO PRODUCTS */}
+            {/* =================================================
+                NO PRODUCTS
+            ================================================= */}
 
             {!loading &&
               !loadError &&
@@ -1278,9 +1270,9 @@ function Products() {
 
       <AdyaFooter />
 
-      {/* =====================================================
+      {/* =================================================
           RESPONSIVE DESIGN
-      ===================================================== */}
+      ================================================= */}
 
       <style>{`
         * {
@@ -2021,3 +2013,4 @@ const styles = {
 };
 
 export default Products;
+
