@@ -1,5 +1,5 @@
 # Amruthahara frontend
-11
+Overall structure 
 This folder is the React + Vite Project storefront.
 
 **Full project documentation** (architecture, file layout, frontend + backend routing, auth/cart/checkout/payment mechanisms, integrations, and block diagrams) is in the repository root:
