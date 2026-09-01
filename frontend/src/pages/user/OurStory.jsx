@@ -144,9 +144,7 @@ const OurStory = () => {
           ))}
         </section>
 
-        <button type="button" className="load-more">
-          Load More Articles
-        </button>
+        
       </main>
 
       <style>{`
