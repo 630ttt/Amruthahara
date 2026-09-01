@@ -1,6 +1,6 @@
 import React from "react";
 import UserSidebar from "../../components/user/UserSidebar";
-import SubscriptionRequestSection from "../../components/subscription/SubscriptionRequestSection";
+import SubscriptionRequestSection from "../components/subscription/SubscriptionRequestSection";
 import { FaCrown } from "react-icons/fa";
 
 const styles = {
