@@ -7,40 +7,32 @@ import "./journalTheme.css";
 const articles = [
   {
     category: "HARVESTING",
-    readTime: "5 MIN READ",
+   
     title: "How Raw Honey Travels From Hive to Home.",
     description:
       "The journey of raw honey is one of careful preservation. We trace the steps from remote forest apiaries to your pantry, ensuring every drop retains its natural goodness.",
     image:
-      "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&q=80&w=900",
+      "https://images.unsplash.com/photo-1587049352851-8d4e89133924?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8SG9uZXl8ZW58MHx8MHx8fDA%3D",
   },
   {
     category: "TASTING",
-    readTime: "7 MIN READ",
+  
     title: "Understanding the Flavours of Forest Honey.",
     description:
       "Just like wine, honey reflects its terroir. Learn to identify subtle floral notes, woody undertones and the character of authentic wild forest harvests.",
     image:
-      "https://images.unsplash.com/photo-1471943311424-646960669fbc?auto=format&fit=crop&q=80&w=900",
+      "https://images.unsplash.com/photo-1623018697148-8350cf18e64e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8SG9uZXl8ZW58MHx8MHx8fDA%3D",
   },
   {
     category: "HERITAGE",
-    readTime: "4 MIN READ",
+ 
     title: "Traditional Uses of Honey Across Generations.",
     description:
       "Beyond sweetness, honey has served as a treasured part of traditional food and family practices passed down through generations.",
     image:
-      "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?auto=format&fit=crop&q=80&w=900",
+      "https://plus.unsplash.com/premium_photo-1663957861996-8093b48a22e6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8SG9uZXl8ZW58MHx8MHx8fDA%3D",
   },
-  {
-    category: "ENVIRONMENT",
-    readTime: "6 MIN READ",
-    title: "Why Every Harvest of Honey Tastes Different.",
-    description:
-      "Changing seasons and flowering cycles mean no two jars of wild honey are exactly the same. Explore what shapes every unique harvest.",
-    image:
-      "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&q=80&w=900",
-  },
+  
 ];
 
 const Honey = () => {
@@ -66,11 +58,11 @@ const Honey = () => {
 
         <section className="ah-journal-featured">
           <img
-            src="https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&q=80&w=1200"
+            src="https://plus.unsplash.com/premium_photo-1664299207508-2dd2b19d8bb9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjl8fEhvbmV5fGVufDB8fDB8fHww"
             alt="Raw honey"
           />
           <div className="ah-journal-featured-copy">
-            <p className="ah-journal-meta">Featured • Honey • 8 min read</p>
+            <p className="ah-journal-meta">Featured • Honey</p>
             <h2>
               The Liquid Gold: Understanding the Nuances of Raw Forest Honey.
             </h2>
