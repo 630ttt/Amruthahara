@@ -502,7 +502,7 @@ function Home() {
             <h2>
               A healthier kitchen
               <br />
-              starts <em>today.</em>
+              Coming <em>Soon.</em>
             </h2>
 
             <p>
