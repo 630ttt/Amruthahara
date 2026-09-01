@@ -12,7 +12,7 @@ const articles = [
     description:
       "Small changes for healthier spaces. Discover how integrating natural materials, plants, and thoughtful choices can create a calmer and healthier home.",
     image:
-      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=900",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC_NGhcPPeFKANrQ_8j_dw97qshM27KeBCKcuVX3HznFdorAcRI15WHEA&s=10",
   },
   {
     category: "ORGANIC LIVING",
@@ -30,7 +30,7 @@ const articles = [
     description:
       "Habits inspired by nature. Cultivate a sense of peace before the day begins with simple routines designed for slower and more mindful mornings.",
     image:
-      "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&q=80&w=900",
+      "https://www.snexplores.org/wp-content/uploads/sites/3/2019/11/860-header-organic-ag-iStock_000017236342_Double.jpg",
   },
 ];
 
