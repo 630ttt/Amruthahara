@@ -510,12 +510,7 @@ function Home() {
               code <strong>AMRUTHA15</strong>
             </p>
 
-            <Link
-              className="amrutha-light-button"
-              to="/products"
-            >
-              
-            </Link>
+            
           </div>
 
           <div className="amrutha-offer-circle">
