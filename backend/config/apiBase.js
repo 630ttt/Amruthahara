@@ -1,56 +1,65 @@
-require("dotenv").config();
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  "https://amruthahara-backend.onrender.com";
 
-const stripSlash = (url) => String(url || "").replace(/\/+$/, "");
+export default API_BASE_URL;
 
-const PORT = process.env.PORT || 5000;
-const isProduction = process.env.NODE_ENV === "production";
+export const toPublicApiUrl = (url) => {
+  if (!url) return "";
 
-const isLocalHost = (value) =>
-  /localhost|127\.0\.0\.1/i.test(String(value || ""));
+  const value = String(url).trim();
 
-const envApiBase = stripSlash(
-  process.env.API_BASE_URL ||
-    process.env.BASE_URL ||
-    process.env.BACKEND_URL ||
-    ""
-);
+  if (!value) return "";
 
-const API_BASE_URL = envApiBase || `http://localhost:${PORT}`;
+  // Base64 / binary converted to data URL
+  if (value.startsWith("data:")) {
+    return value;
+  }
 
-const getPublicApiBase = (req) => {
-  if (req) {
-    const host = String(
-      req.get("x-forwarded-host") || req.get("host") || ""
-    )
-      .split(",")[0]
-      .trim();
+  // Already HTTPS
+  if (value.startsWith("https://")) {
+    return value;
+  }
 
-    if (host && !isLocalHost(host)) {
-      const proto = String(
-        req.get("x-forwarded-proto") || req.protocol || "https"
+  // Convert localhost backend URLs
+  if (
+    value.startsWith("http://localhost:5000") ||
+    value.startsWith("http://127.0.0.1:5000")
+  ) {
+    return value
+      .replace(
+        "http://localhost:5000",
+        API_BASE_URL
       )
-        .split(",")[0]
-        .trim();
+      .replace(
+        "http://127.0.0.1:5000",
+        API_BASE_URL
+      );
+  }
 
-      return stripSlash(`${proto}://${host}`);
+  // Convert other localhost URLs
+  if (
+    value.startsWith("http://localhost") ||
+    value.startsWith("http://127.0.0.1")
+  ) {
+    try {
+      const parsed = new URL(value);
+
+      return `${API_BASE_URL}${parsed.pathname}${parsed.search}${parsed.hash}`;
+    } catch {
+      return value;
     }
   }
 
-  if (envApiBase && !isLocalHost(envApiBase)) {
-    return envApiBase;
+  // Relative API URL
+  if (value.startsWith("/api/")) {
+    return `${API_BASE_URL}${value}`;
   }
 
-  return API_BASE_URL;
-};
+  // Relative uploads URL
+  if (value.startsWith("/uploads/")) {
+    return `${API_BASE_URL}${value}`;
+  }
 
-const FRONTEND_URL = stripSlash(
-  process.env.FRONTEND_URL ||
-    (isProduction ? API_BASE_URL : "http://localhost:5173")
-);
-
-module.exports = {
-  API_BASE_URL,
-  BASE_URL: API_BASE_URL,
-  FRONTEND_URL,
-  getPublicApiBase,
+  return value;
 };
