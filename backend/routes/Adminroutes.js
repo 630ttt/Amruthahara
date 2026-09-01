@@ -16,6 +16,11 @@ const {
 } = require("../controllers/orderController");
 
 const {
+  getAllSubscriptions,
+  updateSubscriptionStatus,
+} = require("../controllers/subscriptionController");
+
+const {
   identifyAuth,
   requireAdmin,
 } = require("../middleware/auth");
@@ -44,6 +49,20 @@ router.put(
   identifyAuth,
   requireAdmin,
   updateOrderStatus
+);
+
+router.get(
+  "/subscriptions",
+  identifyAuth,
+  requireAdmin,
+  getAllSubscriptions
+);
+
+router.patch(
+  "/subscriptions/:id/status",
+  identifyAuth,
+  requireAdmin,
+  updateSubscriptionStatus
 );
 
 // =====================================================
