@@ -7,40 +7,32 @@ import "./journalTheme.css";
 const articles = [
   {
     category: "FARM UPDATES",
-    readTime: "5 MIN READ",
+   
     title: "What Is Fresh on the Farm This Month",
     description:
       "An inside look at the vibrant crops currently coming into season across our partner farms, and how to make the most of them.",
     image:
-      "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&q=80&w=900",
+      "https://images.unsplash.com/photo-1675112462373-e88f23730937?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fFNlYXNvbmFsJTIwUHJvZHVjZXxlbnwwfHwwfHx8MA%3D%3D",
   },
   {
     category: "NUTRITION",
-    readTime: "4 MIN READ",
+   
     title: "Why Seasonal Produce Tastes Better",
     description:
       "Exploring the science and sensory experience behind eating foods exactly when nature intended them to be enjoyed.",
     image:
-      "https://images.unsplash.com/photo-1547517023-7ca0c162f816?auto=format&fit=crop&q=80&w=900",
+      "https://images.unsplash.com/photo-1624428208367-991295ceb69c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjR8fFNlYXNvbmFsJTIwUHJvZHVjZXxlbnwwfHwwfHx8MA%3D%3D",
   },
   {
     category: "EDUCATION",
-    readTime: "7 MIN READ",
+   
     title: "Understanding Nature's Harvest Calendar",
     description:
       "A comprehensive guide to anticipating the natural cycles of growth and harvest throughout the shifting seasons.",
     image:
-      "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&q=80&w=900",
+      "https://images.unsplash.com/photo-1663411760528-c2e0d2a35fed?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nzl8fFNlYXNvbmFsJTIwUHJvZHVjZXxlbnwwfHwwfHx8MA%3D%3D",
   },
-  {
-    category: "LIFESTYLE",
-    readTime: "6 MIN READ",
-    title: "From Farm to Table at the Right Time",
-    description:
-      "Mastering the art of timing your culinary creations to align perfectly with the arrival of fresh farm deliveries.",
-    image:
-      "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&q=80&w=900",
-  },
+ 
 ];
 
 const SeasonalProduce = () => {
@@ -63,12 +55,12 @@ const SeasonalProduce = () => {
 
         <section className="ah-journal-featured">
           <img
-            src="https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&q=80&w=1200"
+            src="https://plus.unsplash.com/premium_photo-1664527307650-7de397f25c79?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Basket of seasonal vegetables"
           />
           <div className="ah-journal-featured-copy">
             <p className="ah-journal-meta">
-              Featured • Seasonal Produce • 8 min read
+              Featured • Seasonal Produce 
             </p>
             <h2>Eating With the Seasons</h2>
             <p>
