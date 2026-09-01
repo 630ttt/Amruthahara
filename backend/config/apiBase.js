@@ -1,10 +1,8 @@
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
+  process.env.API_BASE_URL ||
   "https://amruthahara-backend.onrender.com";
 
-export default API_BASE_URL;
-
-export const toPublicApiUrl = (url) => {
+const toPublicApiUrl = (url) => {
   if (!url) return "";
 
   const value = String(url).trim();
@@ -63,3 +61,6 @@ export const toPublicApiUrl = (url) => {
 
   return value;
 };
+
+module.exports = API_BASE_URL;
+module.exports.toPublicApiUrl = toPublicApiUrl;
