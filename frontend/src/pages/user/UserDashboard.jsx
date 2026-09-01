@@ -351,6 +351,7 @@ function UserDashboard() {
   const { cart } = useCart();
 
   const [orders, setOrders] = useState([]);
+  const [latestSubscription, setLatestSubscription] = useState(null);
 
   /* =========================================
      LOAD ORDERS
@@ -389,12 +390,36 @@ function UserDashboard() {
       });
   };
 
+  const loadSubscription = () => {
+    if (!token) {
+      setLatestSubscription(null);
+      return;
+    }
+
+    fetch(`${API_BASE_URL}/api/subscriptions/my`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setLatestSubscription(data.subscription || null);
+      })
+      .catch((error) => {
+        console.error("Unable to load subscription:", error);
+        setLatestSubscription(null);
+      });
+  };
+
   useEffect(() => {
     if (!sessionReady) {
       return;
     }
 
     loadOrders();
+    loadSubscription();
 
     const handleFocus = () => {
       loadOrders();
@@ -789,10 +814,10 @@ function UserDashboard() {
               </div>
 
               <Link
-                to="/subscriptions"
+                to="/dashboard/subscriptions"
                 style={styles.viewLink}
               >
-                View All
+                Track Subscription
                 <FaArrowRight size={9} />
               </Link>
             </div>
@@ -801,30 +826,54 @@ function UserDashboard() {
               className="subscription-box"
               style={styles.subscription}
             >
-              <div style={styles.subscriptionTitle}>
-                No Active Subscription
-              </div>
+              {latestSubscription ? (
+                <>
+                  <div style={styles.subscriptionTitle}>
+                    {latestSubscription.plan
+                      ? latestSubscription.plan.charAt(0).toUpperCase() +
+                        latestSubscription.plan.slice(1)
+                      : "Your Subscription"}
+                  </div>
 
-              <span style={styles.status}>
-                NOT SUBSCRIBED
-              </span>
+                  <span style={styles.status}>
+                    {(latestSubscription.status || "pending").toUpperCase()}
+                  </span>
 
-              <p style={styles.subscriptionText}>
-                Subscribe to your favorite
-                Amruthahara products and
-                receive them regularly.
-              </p>
+                  <p style={styles.subscriptionText}>
+                    Duration: {latestSubscription.days} days
+                  </p>
 
-              <p style={styles.subscriptionText}>
-                Enjoy convenient, fresh
-                farm-to-home deliveries.
-              </p>
+                  <p style={styles.subscriptionText}>
+                    Track this request from your Subscription page.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div style={styles.subscriptionTitle}>
+                    No Active Subscription
+                  </div>
+
+                  <span style={styles.status}>
+                    NOT SUBSCRIBED
+                  </span>
+
+                  <p style={styles.subscriptionText}>
+                    You don't have any subscription requests yet.
+                  </p>
+
+                  <p style={styles.subscriptionText}>
+                    Send a request and our team will review it.
+                  </p>
+                </>
+              )}
 
               <Link
                 to="/subscription"
                 style={styles.subscriptionButton}
               >
-                Explore Subscriptions
+                {latestSubscription
+                  ? "Manage Subscription"
+                  : "Request a Subscription"}
                 <FaArrowRight />
               </Link>
             </div>
