@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa";
 import Navbar from "../../components/layout/Navbar";
 import AdyaFooter from "../../components/home/AdyaFooter";
-import SubscriptionRequestSection from "../../components/subscription/SubscriptionRequestSection";
+import SubscriptionRequestSection from "../../components/SubscriptionRequestSection";
 
 function Subscription() {
   const [openFaq, setOpenFaq] = useState(null);
