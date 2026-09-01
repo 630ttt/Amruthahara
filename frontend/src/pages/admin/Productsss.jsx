@@ -196,7 +196,7 @@ function Products() {
       setError("");
 
       const response = await fetch(
-        `${API_BASE_URL}/api/products`
+        `https://amruthahara-backend.onrender.com/api/products`
       );
 
       const data = await response.json();
@@ -235,7 +235,7 @@ function Products() {
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/products/${id}`,
+        `https://amruthahara-backend.onrender.com/api/products/${id}`,
         {
           method: "DELETE",
         }
