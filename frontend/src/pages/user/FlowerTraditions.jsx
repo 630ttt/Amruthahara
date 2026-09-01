@@ -7,40 +7,32 @@ import "./journalTheme.css";
 const articles = [
   {
     category: "HERITAGE",
-    readTime: "5 MIN READ",
+   
     title: "Why Jasmine Holds a Special Place in Indian Traditions.",
     description:
       "Fragrant, delicate and deeply symbolic, jasmine has been woven into celebrations, ceremonies and everyday traditions for generations.",
     image:
-      "https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&q=80&w=900",
+      "https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Rmxvd2VyfGVufDB8fDB8fHww",
   },
   {
     category: "RITUALS",
-    readTime: "6 MIN READ",
+    
     title: "Flowers Used in Sacred Rituals and Their Meaning.",
     description:
       "A guide to the blooms chosen for offerings, ceremonies and sacred spaces, exploring the symbolism and spiritual meaning carried by every petal.",
     image:
-      "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&q=80&w=900",
+      "https://images.unsplash.com/photo-1470509037663-253afd7f0f51?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fEZsb3dlcnxlbnwwfHwwfHx8MA%3D%3D",
   },
   {
     category: "AGRICULTURE",
-    readTime: "10 MIN READ",
+   
     title: "From Farm to Garland: The Journey of Fresh Flowers.",
     description:
       "Follow the careful process of cultivating, harvesting and weaving traditional garlands, celebrating the farmers and artisans behind every bloom.",
     image:
-      "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&q=80&w=900",
+      "https://media.istockphoto.com/id/2198211151/photo/vivid-orange-marigold-field-in-full-bloom-during-sunny-day-in-india.webp?a=1&b=1&s=612x612&w=0&k=20&c=_oJX7Kn4RW1I_gSSFNVpQt7XteZGPUXdWc8_kVjgH6s=",
   },
-  {
-    category: "SEASONAL",
-    readTime: "4 MIN READ",
-    title: "How Seasonal Flowers Shape Traditional Celebrations.",
-    description:
-      "Understanding the rhythm of nature and how seasonal blossoms influence the colours, fragrances and traditions of cultural festivities.",
-    image:
-      "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&q=80&w=900",
-  },
+ 
 ];
 
 const FlowerTraditions = () => {
@@ -66,12 +58,12 @@ const FlowerTraditions = () => {
 
         <section className="ah-journal-featured">
           <img
-            src="https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?auto=format&fit=crop&q=80&w=1200"
+            src="https://images.unsplash.com/photo-1587471577460-bdb4891711ce?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDR8fEZsb3dlcnxlbnwwfHwwfHx8MA%3D%3D"
             alt="Traditional flowers"
           />
           <div className="ah-journal-featured-copy">
             <p className="ah-journal-meta">
-              Featured • Flower Traditions • 8 min read
+              Featured • Flower Traditions 
             </p>
             <h2>
               Sacred Blooms: The Role of Marigolds in Traditional Rituals.
