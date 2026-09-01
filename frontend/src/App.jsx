@@ -44,6 +44,7 @@ import AdminSettings from "./pages/admin/AdminSettings";
 import Users from "./pages/admin/Users";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
+import AdminSubscriptions from "./pages/admin/Subscriptions";
  
 import PaymentTest from "./pages/PaymentTest";
 
@@ -294,6 +295,10 @@ function App() {
         <Route
           path="/admin/analytics"
           element={<AdminAnalytics />}
+        />
+        <Route
+          path="/admin/subscriptions"
+          element={<AdminSubscriptions />}
         />
         <Route
           path="*"
