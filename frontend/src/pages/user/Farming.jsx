@@ -7,40 +7,33 @@ import "./journalTheme.css";
 const articles = [
   {
     category: "CULTIVATION",
-    readTime: "5 MIN READ",
+  
     title: "Growing With Nature, Not Against It",
     description:
       "Understanding the delicate balance of local ecosystems to foster crop resilience and natural vitality without synthetic intervention.",
     image:
-      "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&q=80&w=900",
+      "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8RmFybWluZ3xlbnwwfHwwfHx8MA%3D%3D",
   },
   {
     category: "SOIL SCIENCE",
-    readTime: "8 MIN READ",
+   
     title: "Why Healthy Soil Creates Better Harvests",
     description:
       "Delve into the microscopic world beneath our feet and learn why soil health is the cornerstone of nutrient-dense organic produce.",
     image:
-      "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&q=80&w=900",
+      "https://plus.unsplash.com/premium_photo-1661962692059-55d5a4319814?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8RmFybWluZ3xlbnwwfHwwfHx8MA%3D%3D",
   },
   {
     category: "HERITAGE",
-    readTime: "6 MIN READ",
+   
     title: "Traditional Farming Knowledge That Still Matters",
     description:
       "Revisiting ancestral techniques like crop rotation and companion planting that have sustained lands for generations.",
     image:
-      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=900",
+      "https://images.unsplash.com/photo-1627920769842-6887c6df05ca?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fEZhcm1pbmd8ZW58MHx8MHx8fDA%3D",
   },
-  {
-    category: "PEOPLE",
-    readTime: "10 MIN READ",
-    title: "A Day in the Life of an Organic Farmer",
-    description:
-      "Follow the rhythm of the seasons through the daily routines of those who steward the land with patience and purpose.",
-    image:
-      "https://images.unsplash.com/photo-1595053826286-2e59efd9ff18?auto=format&fit=crop&q=80&w=900",
-  },
+
+
 ];
 
 const Farming = () => {
@@ -66,11 +59,11 @@ const Farming = () => {
 
         <section className="ah-journal-featured">
           <img
-            src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1200"
+            src="https://images.unsplash.com/photo-1597916829826-02e5bb4a54e0?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDh8fEZhcm1pbmd8ZW58MHx8MHx8fDA%3D"
             alt="Sustainable farming"
           />
           <div className="ah-journal-featured-copy">
-            <p className="ah-journal-meta">Featured • Farming • 8 min read</p>
+            <p className="ah-journal-meta">Featured • Farming </p>
             <h2>From Soil to Soul: The Philosophy of Sustainable Farming</h2>
             <p>
               Discover how ancient agricultural wisdom intersects with modern
