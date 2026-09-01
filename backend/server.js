@@ -13,6 +13,7 @@ const productRoutes = require("./routes/ProductRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const authRoutes = require("./routes/authRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const subscriptionRoutes = require("./routes/subscriptionRoutes");
 
 const app = express();
 
@@ -77,6 +78,7 @@ app.use("/api/payment", paymentRoutes);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/subscriptions", subscriptionRoutes);
 
 // ==========================================
 // PHONEPE ROUTES
