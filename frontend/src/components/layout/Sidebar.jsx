@@ -13,6 +13,7 @@ import {
   FaLeaf,
   FaBars,
   FaTimes,
+  FaClipboardList,
 } from "react-icons/fa";
  
 function Sidebar() {
@@ -131,6 +132,14 @@ function Sidebar() {
           >
             <FaShoppingBag size={14} />
             <span>Orders</span>
+          </Link>
+          <Link
+            to="/admin/subscriptions"
+            style={linkStyle}
+            onClick={closeMobileMenu}
+          >
+            <FaClipboardList size={14} />
+            <span>Subscriptions</span>
           </Link>
           <Link
             to="/admin/analytics"
