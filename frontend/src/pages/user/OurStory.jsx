@@ -2,12 +2,12 @@ import Navbar from "../../components/layout/Navbar";
 import AdyaFooter from "../../components/home/AdyaFooter";
 import { Link } from "react-router-dom";
 import image1 from "./images/image1.png";
-import image2 from "./images/image2.png";
-import image3 from "./images/image3.png";
-import image4 from "./images/image4.png";
-import image5 from "./images/image5.png";
-import image6 from "./images/image6.png";
-import image7 from "./images/image7.png";
+import image2 from "./images/image2.jpg";
+import image3 from "./images/image3.jpg";
+import image4 from "./images/image4.jpg";
+import image5 from "./images/image5.jpg";
+import image6 from "./images/image6.jpg";
+import image7 from "./images/image7.jpg";
 import JournalFilters from "./JournalFilters";
 import "./journalTheme.css";
 
