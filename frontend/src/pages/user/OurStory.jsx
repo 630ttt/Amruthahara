@@ -1,11 +1,11 @@
 import Navbar from "../../components/layout/Navbar";
 import AdyaFooter from "../../components/home/AdyaFooter";
 import { Link } from "react-router-dom";
-import image1 from "../../user/images/image (1).png";
-import image2 from "../../user/images/image (2).jpg";
-import image3 from "../../user/images/image (3).jpg";
-import image4 from "../../user/images/image (4).jpg";
-import image5 from "../../user/images/image (5).jpg";
+import image1 from "../../user/images/image(1).png";
+import image2 from "../../user/images/image(2).jpg";
+import image3 from "../../user/images/image(3).jpg";
+import image4 from "../../user/images/image(4).jpg";
+import image5 from "../../user/images/image(5).jpg";
 import JournalFilters from "./JournalFilters";
 import "./journalTheme.css";
 
