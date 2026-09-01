@@ -103,11 +103,7 @@ const OurStory = () => {
           ))}
         </section>
 
-        <div className="ah-journal-actions">
-          <button type="button" className="ah-journal-btn ah-journal-btn-ghost">
-            Load More Articles
-          </button>
-        </div>
+       
       </main>
 
       <AdyaFooter />
