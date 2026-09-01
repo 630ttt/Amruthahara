@@ -2,6 +2,10 @@ const API_BASE_URL =
   process.env.API_BASE_URL ||
   "https://amruthahara-backend.onrender.com";
 
+const getPublicApiBase = () => {
+  return API_BASE_URL;
+};
+
 const toPublicApiUrl = (url) => {
   if (!url) return "";
 
@@ -62,5 +66,8 @@ const toPublicApiUrl = (url) => {
   return value;
 };
 
+// CommonJS exports for Node/Express
 module.exports = API_BASE_URL;
+module.exports.API_BASE_URL = API_BASE_URL;
+module.exports.getPublicApiBase = getPublicApiBase;
 module.exports.toPublicApiUrl = toPublicApiUrl;
