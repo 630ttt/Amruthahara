@@ -13,7 +13,7 @@ function AdminLayout({ children }) {
         className="admin-layout-content"
         style={{
           
-          marginLeft:"450px"
+          marginLeft:"470px"
          
         
           
