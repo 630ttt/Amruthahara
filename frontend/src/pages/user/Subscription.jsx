@@ -1,79 +1,19 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
-  FaCheck,
-  FaLeaf,
   FaArrowRight,
   FaCalendarAlt,
-  FaTruck,
+  FaLeaf,
   FaPause,
-  FaTimes,
   FaSeedling,
   FaHeart,
   FaShieldAlt,
 } from "react-icons/fa";
 import Navbar from "../../components/layout/Navbar";
 import AdyaFooter from "../../components/home/AdyaFooter";
+import SubscriptionRequestSection from "../../components/subscription/SubscriptionRequestSection";
 
 function Subscription() {
-  const navigate = useNavigate();
-  const [selectedPlan, setSelectedPlan] = useState("weekly");
   const [openFaq, setOpenFaq] = useState(null);
-
-  const plans = [
-    {
-      id: "daily",
-      title: "Daily",
-      subtitle: "Freshness, every single day.",
-      description:
-        "For everyday essentials that deserve to be fresh, natural and close to their source.",
-      price: "₹99",
-      period: "/ delivery",
-      save: "Save up to 10%",
-      icon: "01",
-      features: [
-        "Fresh products delivered daily",
-        "Flexible product selection",
-        "Priority fresh packing",
-        "Pause anytime",
-      ],
-    },
-    {
-      id: "weekly",
-      title: "Weekly",
-      subtitle: "A little goodness, every week.",
-      description:
-        "Our most-loved plan for families who want a regular supply of wholesome farm-fresh products.",
-      price: "₹299",
-      period: "/ delivery",
-      save: "Save up to 15%",
-      popular: true,
-      icon: "02",
-      features: [
-        "Weekly farm-fresh delivery",
-        "Choose your favourite products",
-        "Priority delivery slots",
-        "Pause or skip anytime",
-      ],
-    },
-    {
-      id: "monthly",
-      title: "Monthly",
-      subtitle: "Wellness delivered your way.",
-      description:
-        "A convenient monthly ritual of carefully selected natural products for your home.",
-      price: "₹999",
-      period: "/ month",
-      save: "Save up to 20%",
-      icon: "03",
-      features: [
-        "Monthly curated delivery",
-        "Exclusive subscriber pricing",
-        "Free delivery",
-        "Cancel anytime",
-      ],
-    },
-  ];
 
   const benefits = [
     {
@@ -125,10 +65,6 @@ function Subscription() {
         "Subscribers receive exclusive savings and selected benefits depending on their subscription plan.",
     },
   ];
-
-  const handleSubscribe = () => {
-    navigate(`/subscription/${selectedPlan}`);
-  };
 
   return (
     <div className="amrutha-subscription-page">
@@ -402,6 +338,158 @@ function Subscription() {
           color: #74776f;
           font-size: 12px;
           line-height: 1.7;
+        }
+
+        .amrutha-sub-request-grid {
+          width: min(1120px, 100%);
+          margin: auto;
+          display: grid;
+          grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+          gap: 24px;
+          align-items: start;
+        }
+
+        .amrutha-sub-form,
+        .amrutha-sub-track-card {
+          background: #fff;
+          border: 1px solid #e6e5dd;
+          border-radius: 18px;
+          padding: 28px 26px;
+          box-sizing: border-box;
+          min-width: 0;
+        }
+
+        .amrutha-sub-label {
+          display: block;
+          margin-bottom: 16px;
+          font-size: 12px;
+          font-weight: 700;
+          color: #173f2a;
+        }
+
+        .amrutha-sub-input {
+          width: 100%;
+          margin-top: 8px;
+          padding: 12px 14px;
+          border: 1px solid #deded5;
+          border-radius: 12px;
+          background: #fbfbf8;
+          font-size: 14px;
+          color: #173f2a;
+          font-family: inherit;
+          box-sizing: border-box;
+        }
+
+        .amrutha-sub-textarea {
+          resize: vertical;
+          min-height: 110px;
+        }
+
+        .amrutha-sub-field-error {
+          display: block;
+          margin-top: 6px;
+          color: #b42318;
+          font-size: 12px;
+          font-weight: 500;
+        }
+
+        .amrutha-sub-alert {
+          margin: 8px 0 16px;
+          padding: 12px 14px;
+          border-radius: 12px;
+          background: #f6eedc;
+          color: #6d5424;
+          font-size: 13px;
+        }
+
+        .amrutha-sub-alert-error {
+          background: #fdecec;
+          color: #b42318;
+        }
+
+        .amrutha-sub-inline-link {
+          color: #175c38;
+          font-weight: 700;
+        }
+
+        .amrutha-sub-submit,
+        .amrutha-sub-track-btn {
+          width: 100%;
+          border: none;
+          border-radius: 999px;
+          padding: 13px 18px;
+          background: #173f2a;
+          color: #fff;
+          font-size: 13px;
+          font-weight: 700;
+          cursor: pointer;
+        }
+
+        .amrutha-sub-submit:disabled,
+        .amrutha-sub-track-btn:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        .amrutha-sub-track-eyebrow {
+          margin: 0 0 8px;
+          letter-spacing: 1.6px;
+          font-size: 11px;
+          font-weight: 800;
+          color: #a68b4f;
+        }
+
+        .amrutha-sub-track-card h3 {
+          margin: 0 0 8px;
+          font-family: Georgia, serif;
+          font-size: 28px;
+          color: #173f2a;
+        }
+
+        .amrutha-sub-track-copy {
+          color: #74776f;
+          font-size: 13px;
+          line-height: 1.7;
+          margin-bottom: 18px;
+        }
+
+        .amrutha-sub-track-panel,
+        .amrutha-sub-success {
+          margin-top: 18px;
+          padding: 16px;
+          border-radius: 14px;
+          background: #f7f6f0;
+          color: #435047;
+          font-size: 14px;
+          line-height: 1.7;
+        }
+
+        .amrutha-sub-track-title {
+          font-weight: 800;
+          color: #173f2a;
+        }
+
+        .amrutha-sub-status-pill {
+          display: inline-block;
+          margin-top: 6px;
+          padding: 6px 12px;
+          border-radius: 999px;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.4px;
+          text-transform: uppercase;
+        }
+
+        .amrutha-sub-success strong {
+          display: block;
+          margin-bottom: 8px;
+          color: #173f2a;
+        }
+
+        @media (max-width: 900px) {
+          .amrutha-sub-request-grid {
+            grid-template-columns: 1fr;
+          }
         }
 
         .amrutha-sub-plans {
@@ -980,11 +1068,11 @@ function Subscription() {
                 className="amrutha-sub-primary-btn"
                 onClick={() =>
                   document
-                    .getElementById("subscription-plans")
+                    .getElementById("subscription-request")
                     ?.scrollIntoView({ behavior: "smooth" })
                 }
               >
-                Explore Plans
+                Request a Plan
                 <FaArrowRight />
               </button>
 
@@ -1044,118 +1132,14 @@ function Subscription() {
 
 
       {/* ==========================================
-          PLANS
+          SUBSCRIPTION REQUEST
       ========================================== */}
 
       <section
         className="amrutha-sub-plans-section"
-        id="subscription-plans"
+        id="subscription-request"
       >
-
-        <div className="amrutha-sub-heading">
-
-          <p className="eyebrow">
-            CHOOSE YOUR RHYTHM
-          </p>
-
-          <h2>
-            A plan that fits your life.
-          </h2>
-
-          <p>
-            Simple subscriptions designed around
-            how often your home needs nature's goodness.
-          </p>
-
-        </div>
-
-
-        <div className="amrutha-sub-plans">
-
-          {plans.map((plan) => (
-
-            <article
-              key={plan.id}
-              className={`amrutha-sub-plan ${
-                selectedPlan === plan.id ? "selected" : ""
-              }`}
-              onClick={() => setSelectedPlan(plan.id)}
-            >
-
-              {plan.popular && (
-                <div className="amrutha-sub-popular">
-                  Most Loved
-                </div>
-              )}
-
-              <div className="amrutha-sub-plan-number">
-                {plan.icon}
-              </div>
-
-              <h3>
-                {plan.title}
-              </h3>
-
-              <p className="amrutha-sub-plan-subtitle">
-                {plan.subtitle}
-              </p>
-
-              <p className="amrutha-sub-plan-description">
-                {plan.description}
-              </p>
-
-              <div className="amrutha-sub-price">
-
-                <strong>
-                  {plan.price}
-                </strong>
-
-                <span>
-                  {plan.period}
-                </span>
-
-              </div>
-
-              <span className="amrutha-sub-save">
-                {plan.save}
-              </span>
-
-
-              <div className="amrutha-sub-features">
-
-                {plan.features.map((feature) => (
-
-                  <div
-                    className="amrutha-sub-feature"
-                    key={feature}
-                  >
-                    <FaCheck />
-                    <span>{feature}</span>
-                  </div>
-
-                ))}
-
-              </div>
-
-
-              <button
-                className="amrutha-sub-select"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  setSelectedPlan(plan.id);
-                }}
-              >
-                {selectedPlan === plan.id
-                  ? "Selected"
-                  : "Choose Plan"}
-              </button>
-
-            </article>
-
-          ))}
-
-        </div>
-
+        <SubscriptionRequestSection />
       </section>
 
 
@@ -1310,8 +1294,15 @@ function Subscription() {
             again and again.
           </p>
 
-          <button onClick={handleSubscribe}>
-            Start My {selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} Subscription
+          <button
+            type="button"
+            onClick={() =>
+              document
+                .getElementById("subscription-request")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+          >
+            Send a Subscription Request
             <FaArrowRight />
           </button>
 
