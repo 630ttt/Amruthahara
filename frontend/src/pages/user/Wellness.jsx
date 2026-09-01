@@ -89,10 +89,7 @@ const Wellness = () => {
           ))}
         </section>
 
-        <div className="ah-journal-actions">
-          <Link to="/products" className="ah-journal-btn">
-            Explore the Shop
-          </Link>
+        
         </div>
       </main>
 
