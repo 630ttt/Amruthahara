@@ -39,7 +39,7 @@ L.Icon.Default.mergeOptions({
 
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
-  "https://amruthahara-2.onrender.com";
+  "https://amruthahara-backend.onrender.com";
 
 // =====================================================
 // NORMALIZE IMAGE / VIDEO / MODEL URL
