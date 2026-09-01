@@ -7,7 +7,7 @@ import "./journalTheme.css";
 const articles = [
   {
     category: "HERITAGE",
-    readTime: "8 MIN READ",
+    
     title: "Generations Rooted in the Same Soil",
     description:
       "A deep dive into the families who have cultivated the same land for centuries, passing down traditional ecological knowledge alongside ancestral seeds.",
@@ -16,7 +16,7 @@ const articles = [
   },
   {
     category: "SUSTAINABILITY",
-    readTime: "5 MIN READ",
+    
     title: "Why Small Farmers Choose Organic Methods",
     description:
       "Understanding the shift toward regenerative practices and how individual farmers are leading the way in protecting local biodiversity.",
@@ -25,22 +25,14 @@ const articles = [
   },
   {
     category: "COMMUNITY",
-    readTime: "6 MIN READ",
+    
     title: "Women Who Keep Farming Traditions Alive",
     description:
       "Celebrating the vital role of women in rural agriculture, from seed preservation to the stewardship of traditional farming rituals.",
     image:
       "https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8RmFybWVyJTIwU3Rvcmllc3xlbnwwfHwwfHx8MA%3D%3D",
   },
-  {
-    category: "PHILOSOPHY",
-    readTime: "10 MIN READ",
-    title: "The Patience Behind Every Harvest",
-    description:
-      "Understanding the slow, deliberate pace of natural farming and the quiet resilience it demands from those who steward the land.",
-    image:
-      "https://images.unsplash.com/photo-1607892408220-c80c0f8651d0?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fEZhcm1lciUyMFN0b3JpZXN8ZW58MHx8MHx8fDA%3D",
-  },
+  
 ];
 
 const FarmerStories = () => {
@@ -70,7 +62,7 @@ const FarmerStories = () => {
           />
           <div className="ah-journal-featured-copy">
             <p className="ah-journal-meta">
-              Featured • Farmer Stories • 8 min read
+              Featured • Farmer Stories 
             </p>
             <h2>Meet the Hands Behind the Harvest</h2>
             <p>
