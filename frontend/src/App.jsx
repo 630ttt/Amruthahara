@@ -44,7 +44,7 @@ import AdminSettings from "./pages/admin/AdminSettings";
 import Users from "./pages/admin/Users";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
-import AdminSubscriptions from "./pages/admin/Subscriptions";
+import AdminSubscriptions from "./pages/admin/subscriptions";
  
 import PaymentTest from "./pages/PaymentTest";
 
