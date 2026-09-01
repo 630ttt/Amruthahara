@@ -268,7 +268,7 @@ function Home() {
         >
           <div className="amrutha-story-image">
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqnu3ws6lYfffRk_N9UTYxtW5EJo9jGwA2GI9H3T8nuqmXyPawmWEMPVwA&s=10"
+              src="https://media.istockphoto.com/id/157573665/photo/rice-harvest.jpg?s=612x612&w=0&k=20&c=uuksAtks01YDk1-Z6Xgp1WVKgAkFlvG4VVOjbXO1kVQ="
               alt="Organic farm at sunrise"
               loading="lazy"
             />
