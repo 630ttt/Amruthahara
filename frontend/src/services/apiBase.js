@@ -12,9 +12,11 @@ const PRODUCTION_API = "https://amruthahara-backend.onrender.com";
 const isLocalHostName = (hostname) =>
   hostname === "localhost" || hostname === "127.0.0.1";
 
-const isLocalUrl = (url) => /localhost|127\.0\.0\.1/i.test(String(url || ""));
+const isLocalUrl = (url) =>
+  /localhost|127\.0\.0\.1/i.test(String(url || ""));
 
 const resolveApiBase = () => {
+  // Local development
   if (
     typeof window !== "undefined" &&
     isLocalHostName(window.location.hostname)
@@ -22,10 +24,12 @@ const resolveApiBase = () => {
     return LOCAL_API;
   }
 
+  // Production environment variable
   if (envUrl && !isLocalUrl(envUrl)) {
     return envUrl;
   }
 
+  // Production fallback
   return PRODUCTION_API;
 };
 
@@ -36,6 +40,7 @@ const toPublicApiUrl = (url) => {
     return url;
   }
 
+  // Keep localhost URLs while running locally
   if (
     typeof window !== "undefined" &&
     isLocalHostName(window.location.hostname)
@@ -43,6 +48,7 @@ const toPublicApiUrl = (url) => {
     return url;
   }
 
+  // Convert localhost backend URLs to production backend
   return url.replace(
     /^https?:\/\/(localhost|127\.0\.0\.1):\d+/i,
     API_BASE_URL
@@ -50,4 +56,8 @@ const toPublicApiUrl = (url) => {
 };
 
 export default API_BASE_URL;
-export { API_BASE_URL, toPublicApiUrl };
+
+export {
+  API_BASE_URL,
+  toPublicApiUrl,
+};
