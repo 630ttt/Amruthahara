@@ -1,330 +1,159 @@
+
 import React, { useEffect, useState } from "react";
-import AdminLayout from "../../layouts/AdminLayout";
+import Sidebar from "../../components/layout/Sidebar";
 
-const API_URL = "https://amruthahara-backend.onrender.com";
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://amruthahara-backend.onrender.com";
 
-function Users() {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const fetchUsers = async () => {
-    try {
-      setLoading(true);
-      setError("");
-
-      const response = await fetch(`${API_URL}/api/admin/users`);
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        throw new Error(data.message || "Unable to fetch users");
-      }
-
-      setUsers(data.users || []);
-    } catch (err) {
-      console.error("FETCH USERS ERROR:", err);
-      setError(err.message || "Unable to load users");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <AdminLayout>
-      <div style={styles.page}>
-
-        {/* HEADER */}
-        <div style={styles.header}>
-          <div>
-            <p style={styles.eyebrow}>AMRUTHAHARA ADMIN</p>
-
-            <h1 style={styles.title}>
-              Customers
-            </h1>
-
-            <p style={styles.subtitle}>
-              View and manage all registered customer accounts.
-            </p>
-          </div>
-
-          <div style={styles.countCard}>
-            <div style={styles.countNumber}>
-              {users.length}
-            </div>
-
-            <div style={styles.countLabel}>
-              Registered Users
-            </div>
-          </div>
-        </div>
-
-        {/* ERROR */}
-        {error && (
-          <div style={styles.error}>
-            {error}
-          </div>
-        )}
-
-        {/* CONTENT */}
-        <div style={styles.card}>
-
-          <div style={styles.cardHeader}>
-            <div>
-              <h2 style={styles.cardTitle}>
-                Customer Accounts
-              </h2>
-
-              <p style={styles.cardSubtitle}>
-                All users registered through the customer login system.
-              </p>
-            </div>
-
-            <button
-              onClick={fetchUsers}
-              style={styles.refreshButton}
-            >
-              Refresh
-            </button>
-          </div>
-
-          {/* LOADING */}
-          {loading ? (
-            <div style={styles.center}>
-              Loading customers...
-            </div>
-          ) : users.length === 0 ? (
-            <div style={styles.center}>
-              No registered users found.
-            </div>
-          ) : (
-            <div style={styles.tableWrapper}>
-              <table style={styles.table}>
-
-                <thead>
-                  <tr>
-                    <th style={styles.th}>#</th>
-                    <th style={styles.th}>Customer</th>
-                    <th style={styles.th}>Email</th>
-                    <th style={styles.th}>Phone</th>
-                    <th style={styles.th}>Registered</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {users.map((user, index) => (
-                    <tr key={user._id}>
-
-                      <td style={styles.td}>
-                        {index + 1}
-                      </td>
-
-                      <td style={styles.td}>
-                        <div style={styles.customer}>
-                          <div style={styles.avatar}>
-                            {user.name
-                              ? user.name.charAt(0).toUpperCase()
-                              : "U"}
-                          </div>
-
-                          <div>
-                            <div style={styles.name}>
-                              {user.name || "Unknown User"}
-                            </div>
-
-                            <div style={styles.id}>
-                              ID: {user._id}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-
-                      <td style={styles.td}>
-                        {user.email || "—"}
-                      </td>
-
-                      <td style={styles.td}>
-                        {user.phone || "—"}
-                      </td>
-
-                      <td style={styles.td}>
-                        {user.createdAt
-                          ? new Date(
-                              user.createdAt
-                            ).toLocaleDateString("en-IN", {
-                              day: "2-digit",
-                              month: "short",
-                              year: "numeric",
-                            })
-                          : "—"}
-                      </td>
-
-                    </tr>
-                  ))}
-                </tbody>
-
-              </table>
-            </div>
-          )}
-
-        </div>
-      </div>
-    </AdminLayout>
-  );
-}
+// =====================================================
+// STYLES
+// =====================================================
 
 const styles = {
-  page: {
+  container: {
+    display: "flex",
     minHeight: "100vh",
-    padding: "35px",
-    background:
-      "linear-gradient(135deg, #f6f8f3 0%, #eef4ed 100%)",
-    boxSizing: "border-box",
-    marginLeft:"-210px"
+    width: "100%",
+    backgroundColor: "#F5F8F3",
   },
 
-  header: {
+  content: {
+    marginLeft: "250px",
+    width: "calc(100% - 250px)",
+    padding: "35px",
+    boxSizing: "border-box",
+    minWidth: 0,
+  },
+
+  // ===================================================
+  // HEADER
+  // ===================================================
+
+  topBar: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    gap: "25px",
     marginBottom: "30px",
+    gap: "20px",
   },
 
-  eyebrow: {
-    margin: "0 0 8px",
-    fontSize: "11px",
-    fontWeight: "800",
-    letterSpacing: "2px",
-    color: "#a68b4f",
-  },
-
-  title: {
+  heading: {
     margin: 0,
-    fontFamily: "Georgia, serif",
-    fontSize: "38px",
-    fontWeight: "500",
-    color: "#183b28",
+    fontSize: "32px",
+    fontWeight: "800",
+    color: "#173F2A",
   },
 
   subtitle: {
-    margin: "8px 0 0",
-    fontSize: "13px",
-    color: "#78857c",
-  },
-
-  countCard: {
-    minWidth: "170px",
-    padding: "20px 25px",
-    borderRadius: "18px",
-    background: "#ffffff",
-    border: "1px solid #e1e9df",
-    boxShadow: "0 12px 30px rgba(28,70,42,0.08)",
-    textAlign: "center",
-  },
-
-  countNumber: {
-    fontFamily: "Georgia, serif",
-    fontSize: "34px",
-    fontWeight: "600",
-    color: "#176039",
-  },
-
-  countLabel: {
-    marginTop: "5px",
-    fontSize: "11px",
-    color: "#849087",
-    fontWeight: "700",
-    letterSpacing: "0.5px",
-  },
-
-  card: {
-    background: "#ffffff",
-    borderRadius: "22px",
-    border: "1px solid #e1e9df",
-    boxShadow: "0 15px 40px rgba(28,70,42,0.08)",
-    overflow: "hidden",
-  },
-
-  cardHeader: {
-    padding: "24px 28px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottom: "1px solid #edf1ec",
-  },
-
-  cardTitle: {
-    margin: 0,
-    fontFamily: "Georgia, serif",
-    fontSize: "22px",
-    fontWeight: "500",
-    color: "#203d2b",
-  },
-
-  cardSubtitle: {
     margin: "6px 0 0",
-    fontSize: "12px",
-    color: "#879188",
+    color: "#7A847C",
+    fontSize: "13px",
   },
 
   refreshButton: {
     border: "none",
-    borderRadius: "10px",
-    padding: "10px 18px",
-    background: "#176039",
-    color: "#ffffff",
+    backgroundColor: "#175C38",
+    color: "#FFFFFF",
+    padding: "12px 18px",
+    borderRadius: "9px",
     cursor: "pointer",
-    fontSize: "12px",
     fontWeight: "700",
+    fontSize: "13px",
+    whiteSpace: "nowrap",
+  },
+
+  // ===================================================
+  // COUNT CARD
+  // ===================================================
+
+  countCard: {
+    backgroundColor: "#FFFFFF",
+    border: "1px solid #E3EAE1",
+    borderRadius: "12px",
+    padding: "18px 22px",
+    marginBottom: "20px",
+    color: "#445148",
+    boxShadow: "0 5px 18px rgba(30,70,40,0.03)",
+  },
+
+  countNumber: {
+    color: "#175C38",
+    fontSize: "22px",
+    fontWeight: "800",
+    marginLeft: "6px",
+  },
+
+  // ===================================================
+  // TABLE CARD
+  // ===================================================
+
+  tableCard: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: "16px",
+    border: "1px solid #E3EAE1",
+    boxShadow: "0 8px 25px rgba(30,70,40,0.05)",
+    overflow: "hidden",
   },
 
   tableWrapper: {
     width: "100%",
     overflowX: "auto",
+    WebkitOverflowScrolling: "touch",
   },
 
   table: {
     width: "100%",
+    minWidth: "900px",
     borderCollapse: "collapse",
-    minWidth: "800px",
   },
+
+  // ===================================================
+  // TABLE HEADER
+  // ===================================================
 
   th: {
+    backgroundColor: "#173F2A",
+    color: "#FFFFFF",
+    padding: "16px 15px",
     textAlign: "left",
-    padding: "16px 20px",
-    background: "#f7faf6",
-    color: "#647269",
-    fontSize: "11px",
-    fontWeight: "800",
-    letterSpacing: "0.5px",
-    textTransform: "uppercase",
-    borderBottom: "1px solid #e8eee6",
+    fontSize: "12px",
+    fontWeight: "700",
+    letterSpacing: "0.4px",
+    whiteSpace: "nowrap",
   },
 
+  // ===================================================
+  // TABLE DATA
+  // ===================================================
+
   td: {
-    padding: "17px 20px",
-    borderBottom: "1px solid #edf1ec",
-    color: "#435047",
+    padding: "17px 15px",
+    borderBottom: "1px solid #EDF0EC",
+    color: "#536058",
     fontSize: "13px",
+    verticalAlign: "middle",
   },
+
+  // ===================================================
+  // CUSTOMER
+  // ===================================================
 
   customer: {
     display: "flex",
     alignItems: "center",
     gap: "12px",
+    minWidth: "220px",
   },
 
   avatar: {
-    width: "38px",
-    height: "38px",
+    width: "40px",
+    height: "40px",
+    minWidth: "40px",
     borderRadius: "50%",
     background:
       "linear-gradient(135deg, #176039, #3d8055)",
-    color: "#ffffff",
+    color: "#FFFFFF",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -333,33 +162,457 @@ const styles = {
   },
 
   name: {
-    color: "#203d2b",
+    color: "#263D2E",
     fontWeight: "700",
     fontSize: "13px",
+    marginBottom: "3px",
   },
 
   id: {
-    marginTop: "3px",
-    color: "#a0aaa3",
+    color: "#9AA49D",
     fontSize: "9px",
+    wordBreak: "break-all",
+    maxWidth: "180px",
   },
 
-  center: {
-    padding: "70px 20px",
-    textAlign: "center",
-    color: "#89958d",
+  email: {
+    color: "#536058",
     fontSize: "13px",
+    whiteSpace: "nowrap",
   },
+
+  phone: {
+    color: "#536058",
+    fontSize: "13px",
+    whiteSpace: "nowrap",
+  },
+
+  registered: {
+    color: "#536058",
+    fontSize: "13px",
+    whiteSpace: "nowrap",
+  },
+
+  // ===================================================
+  // ERROR
+  // ===================================================
 
   error: {
-    marginBottom: "20px",
+    backgroundColor: "#FFF1F1",
+    color: "#B91C1C",
+    border: "1px solid #FFD8D8",
     padding: "14px 18px",
-    background: "#fff3f2",
-    border: "1px solid #f0d6d5",
-    borderRadius: "12px",
-    color: "#b6424b",
+    borderRadius: "9px",
+    marginBottom: "20px",
     fontSize: "13px",
+  },
+
+  retryButton: {
+    marginTop: "12px",
+    border: "none",
+    backgroundColor: "#175C38",
+    color: "#FFFFFF",
+    padding: "10px 18px",
+    borderRadius: "7px",
+    cursor: "pointer",
+  },
+
+  // ===================================================
+  // LOADING
+  // ===================================================
+
+  loading: {
+    minHeight: "60vh",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#175C38",
+    fontSize: "18px",
+    fontWeight: "700",
+  },
+
+  // ===================================================
+  // EMPTY
+  // ===================================================
+
+  empty: {
+    padding: "60px 20px",
+    textAlign: "center",
+    color: "#7C877F",
   },
 };
 
+// =====================================================
+// USERS
+// =====================================================
+
+function Users() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  // ===================================================
+  // FETCH USERS
+  // ===================================================
+
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const token = localStorage.getItem("adminToken");
+
+      const headers = {};
+
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+
+      const response = await fetch(
+        `${API_BASE_URL}/api/admin/users`,
+        {
+          headers,
+        }
+      );
+
+      const data = await response.json();
+
+      console.log("GET USERS RESPONSE:", data);
+
+      if (!response.ok || !data.success) {
+        throw new Error(
+          data.message || "Unable to fetch users"
+        );
+      }
+
+      setUsers(data.users || []);
+    } catch (err) {
+      console.error("FETCH USERS ERROR:", err);
+
+      setError(
+        err.message || "Unable to load users"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ===================================================
+  // INITIAL LOAD
+  // ===================================================
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  // ===================================================
+  // DATE FORMAT
+  // ===================================================
+
+  const formatDate = (date) => {
+    if (!date) return "-";
+
+    const parsedDate = new Date(date);
+
+    if (isNaN(parsedDate.getTime())) {
+      return "-";
+    }
+
+    return parsedDate.toLocaleString(
+      "en-IN",
+      {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }
+    );
+  };
+
+  // ===================================================
+  // LOADING
+  // ===================================================
+
+  if (loading) {
+    return (
+      <div style={styles.container}>
+        <Sidebar />
+
+        <main style={styles.content}>
+          <div style={styles.loading}>
+            Loading customers...
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  // ===================================================
+  // UI
+  // ===================================================
+
+  return (
+    <div style={styles.container}>
+
+      {/* SIDEBAR */}
+      <Sidebar />
+
+      {/* MAIN CONTENT */}
+      <main style={styles.content}>
+
+        {/* =========================================
+            HEADER
+        ========================================= */}
+
+        <div style={styles.topBar}>
+
+          <div>
+            <h1 style={styles.heading}>
+              Customers
+            </h1>
+
+            <p style={styles.subtitle}>
+              View and manage all registered customer
+              accounts.
+            </p>
+          </div>
+
+          <button
+            style={styles.refreshButton}
+            onClick={fetchUsers}
+          >
+            ↻ Refresh Users
+          </button>
+
+        </div>
+
+        {/* =========================================
+            ERROR
+        ========================================= */}
+
+        {error && (
+          <div style={styles.error}>
+
+            {error}
+
+            <br />
+
+            <button
+              style={styles.retryButton}
+              onClick={fetchUsers}
+            >
+              Try Again
+            </button>
+
+          </div>
+        )}
+
+        {/* =========================================
+            COUNT
+        ========================================= */}
+
+        <div style={styles.countCard}>
+          Total Registered Users:{" "}
+
+          <strong style={styles.countNumber}>
+            {users.length}
+          </strong>
+        </div>
+
+        {/* =========================================
+            TABLE
+        ========================================= */}
+
+        <div style={styles.tableCard}>
+
+          {users.length === 0 ? (
+
+            <div style={styles.empty}>
+
+              <h3>
+                No Users Found
+              </h3>
+
+              <p>
+                There are currently no registered
+                customer accounts.
+              </p>
+
+            </div>
+
+          ) : (
+
+            <div style={styles.tableWrapper}>
+
+              <table style={styles.table}>
+
+                <thead>
+
+                  <tr>
+
+                    <th style={styles.th}>
+                      #
+                    </th>
+
+                    <th style={styles.th}>
+                      Customer
+                    </th>
+
+                    <th style={styles.th}>
+                      Email
+                    </th>
+
+                    <th style={styles.th}>
+                      Phone
+                    </th>
+
+                    <th style={styles.th}>
+                      Registered
+                    </th>
+
+                  </tr>
+
+                </thead>
+
+                <tbody>
+
+                  {users.map((user, index) => (
+
+                    <tr key={user._id || index}>
+
+                      {/* =========================
+                          NUMBER
+                      ========================= */}
+
+                      <td style={styles.td}>
+                        {index + 1}
+                      </td>
+
+                      {/* =========================
+                          CUSTOMER
+                      ========================= */}
+
+                      <td style={styles.td}>
+
+                        <div style={styles.customer}>
+
+                          <div style={styles.avatar}>
+                            {user.name
+                              ? user.name
+                                  .charAt(0)
+                                  .toUpperCase()
+                              : "U"}
+                          </div>
+
+                          <div>
+
+                            <div style={styles.name}>
+                              {user.name ||
+                                "Unknown User"}
+                            </div>
+
+                            <div style={styles.id}>
+                              ID: {user._id || "-"}
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </td>
+
+                      {/* =========================
+                          EMAIL
+                      ========================= */}
+
+                      <td style={styles.td}>
+
+                        <span style={styles.email}>
+                          {user.email || "—"}
+                        </span>
+
+                      </td>
+
+                      {/* =========================
+                          PHONE
+                      ========================= */}
+
+                      <td style={styles.td}>
+
+                        <span style={styles.phone}>
+                          {user.phone || "—"}
+                        </span>
+
+                      </td>
+
+                      {/* =========================
+                          REGISTERED
+                      ========================= */}
+
+                      <td style={styles.td}>
+
+                        <span
+                          style={styles.registered}
+                        >
+                          {formatDate(
+                            user.createdAt
+                          )}
+                        </span>
+
+                      </td>
+
+                    </tr>
+
+                  ))}
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+          )}
+
+        </div>
+
+      </main>
+
+      {/* =========================================
+          RESPONSIVE CSS
+      ========================================= */}
+
+      <style>{`
+
+        @media (max-width: 1100px) {
+
+          main {
+            margin-left: 0 !important;
+            width: 100% !important;
+          }
+
+        }
+
+        @media (max-width: 700px) {
+
+          main {
+            padding: 20px 12px !important;
+          }
+
+        }
+
+        @media (max-width: 600px) {
+
+          .users-header {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+          }
+
+        }
+
+      `}</style>
+
+    </div>
+  );
+}
+
 export default Users;
+
