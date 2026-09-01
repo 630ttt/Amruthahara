@@ -514,8 +514,7 @@ function Home() {
               className="amrutha-light-button"
               to="/products"
             >
-              Shop now
-              <FaArrowRight />
+              
             </Link>
           </div>
 
