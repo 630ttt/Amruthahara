@@ -199,30 +199,35 @@ function Home() {
             </p>
           </div>
 
-          <div className="amrutha-category-grid">
-            {categories.map(([title, text, image]) => (
-              <Link
-                to="/products"
-                className="amrutha-category-tile"
-                key={title}
-              >
-                <img
-                  src={image}
-                  alt={title}
-                  loading="lazy"
-                />
+    <div className="amrutha-category-grid">
+  {categories.map(([title, text, image]) => (
+    <Link
+      to={
+        title === "Wellness boxes"
+          ? "/bowl"
+          : `/products?category=${encodeURIComponent(title)}`
+      }
+      className="amrutha-category-tile"
+      key={title}
+    >
+      <img
+        src={image}
+        alt={title}
+        loading="lazy"
+      />
 
-                <div>
-                  <span>{text}</span>
+      <div>
+        <span>{text}</span>
 
-                  <h3>
-                    {title}
-                    <FaArrowRight />
-                  </h3>
-                </div>
-              </Link>
-            ))}
-          </div>
+        <h3>
+          {title}
+          <FaArrowRight />
+        </h3>
+      </div>
+    </Link>
+  ))}
+</div>
+
         </section>
 
         {/* =========================================
@@ -658,56 +663,7 @@ function Home() {
             NEWSLETTER
         ========================================== */}
 
-        <section className="amrutha-newsletter">
-          <div>
-            <p className="amrutha-eyebrow">
-              A NOTE FROM OUR PANTRY
-            </p>
-
-            <h2>
-              Bring more goodness
-              <br />
-              <em>to your inbox.</em>
-            </h2>
-
-            <p>
-              Healthy recipes, product stories
-              and thoughtful offers from
-              Amruthahara.
-            </p>
-          </div>
-
-          <form onSubmit={submitNewsletter}>
-            <label htmlFor="amrutha-email">
-              Your email address
-            </label>
-
-            <div>
-              <input
-                id="amrutha-email"
-                type="email"
-                value={email}
-                onChange={(event) =>
-                  setEmail(event.target.value)
-                }
-                placeholder="you@example.com"
-                required
-              />
-
-              <button
-                type="submit"
-                aria-label="Subscribe to newsletter"
-              >
-                <FaArrowRight />
-              </button>
-            </div>
-
-            <small>
-              By subscribing, you agree to receive
-              occasional updates from us.
-            </small>
-          </form>
-        </section>
+       
 
         {/* =========================================
             FOOTER
