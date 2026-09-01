@@ -7,40 +7,32 @@ import "./journalTheme.css";
 const articles = [
   {
     category: "RITUALS",
-    readTime: "3 MIN READ",
+   
     title: "Simple Morning Rituals Inspired by Nature.",
     description:
       "Starting the day with intention and grounded practices to cultivate lasting calm.",
     image:
-      "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=900",
+      "https://images.unsplash.com/photo-1477332552946-cfb384aeaf1c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8V2VsbG5lc3N8ZW58MHx8MHx8fDA%3D",
   },
   {
     category: "NUTRITION",
-    readTime: "7 MIN READ",
+    
     title: "Natural Ingredients for Everyday Wellbeing.",
     description:
       "Harnessing the potent, healing properties found in unprocessed, earth-derived staples.",
     image:
-      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=900",
+      "https://images.unsplash.com/photo-1535914254981-b5012eebbd15?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8V2VsbG5lc3N8ZW58MHx8MHx8fDA%3D",
   },
   {
     category: "LIFESTYLE",
-    readTime: "4 MIN READ",
+  
     title: "Finding Calm Through Slower Living.",
     description:
       "Reclaiming time and reducing noise in a fast-paced modern environment.",
     image:
-      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=900",
+      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTV8fFdlbGxuZXNzfGVufDB8fDB8fHww",
   },
-  {
-    category: "MIND",
-    readTime: "6 MIN READ",
-    title: "Creating Small Moments of Mindfulness.",
-    description:
-      "Micro-practices to anchor yourself in the present throughout a busy day.",
-    image:
-      "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=900",
-  },
+  
 ];
 
 const Wellness = () => {
@@ -66,11 +58,11 @@ const Wellness = () => {
 
         <section className="ah-journal-featured">
           <img
-            src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=1200"
+            src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjN8fFdlbGxuZXNzfGVufDB8fDB8fHww"
             alt="Returning to nature for everyday wellness"
           />
           <div className="ah-journal-featured-copy">
-            <p className="ah-journal-meta">Featured • Wellness • 5 min read</p>
+            <p className="ah-journal-meta">Featured • Wellness </p>
             <h2>Returning to Nature for Everyday Wellness.</h2>
             <p>
               Discover the grounding power of aligning our daily rhythms with
