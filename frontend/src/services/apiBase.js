@@ -1,4 +1,5 @@
-const stripSlash = (url) => String(url || "").replace(/\/+$/, "");
+const stripSlash = (url) =>
+  String(url || "").replace(/\/+$/, "");
 
 const envUrl = stripSlash(
   import.meta.env.VITE_API_BASE_URL ||
@@ -7,10 +8,12 @@ const envUrl = stripSlash(
 );
 
 const LOCAL_API = "http://localhost:5000";
-const PRODUCTION_API = "https://amruthahara-backend.onrender.com";
+const PRODUCTION_API =
+  "https://amruthahara-backend.onrender.com";
 
 const isLocalHostName = (hostname) =>
-  hostname === "localhost" || hostname === "127.0.0.1";
+  hostname === "localhost" ||
+  hostname === "127.0.0.1";
 
 const isLocalUrl = (url) =>
   /localhost|127\.0\.0\.1/i.test(String(url || ""));
@@ -35,12 +38,32 @@ const resolveApiBase = () => {
 
 const API_BASE_URL = resolveApiBase();
 
+/**
+ * Returns the currently resolved public API base URL.
+ */
+const getPublicApiBase = () => {
+  return API_BASE_URL;
+};
+
+/**
+ * Converts backend URLs into publicly accessible URLs.
+ */
 const toPublicApiUrl = (url) => {
   if (!url || typeof url !== "string") {
     return url;
   }
 
-  // Keep localhost URLs while running locally
+  // Base64 / binary data URL
+  if (url.startsWith("data:")) {
+    return url;
+  }
+
+  // Already HTTPS
+  if (url.startsWith("https://")) {
+    return url;
+  }
+
+  // When running locally, keep localhost URLs
   if (
     typeof window !== "undefined" &&
     isLocalHostName(window.location.hostname)
@@ -48,7 +71,7 @@ const toPublicApiUrl = (url) => {
     return url;
   }
 
-  // Convert localhost backend URLs to production backend
+  // Convert localhost backend URLs
   return url.replace(
     /^https?:\/\/(localhost|127\.0\.0\.1):\d+/i,
     API_BASE_URL
@@ -59,5 +82,6 @@ export default API_BASE_URL;
 
 export {
   API_BASE_URL,
+  getPublicApiBase,
   toPublicApiUrl,
 };
