@@ -13,7 +13,7 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
-import { API_BASE_URL } from "../../services/apiBase";
+import { API_BASE_URL, toPublicApiUrl } from "../../services/apiBase";
 
 const styles = {
   navbar: {
@@ -24,6 +24,7 @@ const styles = {
     WebkitBackdropFilter: "blur(18px)",
     display: "flex",
     alignItems: "center",
+    
     justifyContent: "space-between",
     padding: "0 5%",
     position: "fixed",
@@ -33,7 +34,7 @@ const styles = {
     zIndex: 2000,
     borderBottom: "1px solid rgba(23,92,56,0.08)",
     boxShadow: "0 8px 30px rgba(20,55,32,0.06)",
-    gap: "30px",
+    gap: "20px",
     boxSizing: "border-box",
   },
 
@@ -233,8 +234,8 @@ const styles = {
 
   iconWrapper: {
     position: "relative",
-    width: "24px",
-    height: "24px",
+    width: "20px",
+    height: "20px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -888,7 +889,7 @@ function Navbar() {
 
             .amruthahara-right {
               gap: 7px !important;
-              margin-left: auto !important;
+              margin-left: -45px;
             }
 
             .amruthahara-icons {
@@ -1025,6 +1026,7 @@ function Navbar() {
             color: #245E3C;
             display: flex;
             align-items: center;
+            
             justify-content: center;
             cursor: pointer;
           }
@@ -1090,6 +1092,7 @@ function Navbar() {
             min-height: 42px;
             display: flex;
             align-items: center;
+            
             justify-content: center;
             border-radius: 7px;
             text-decoration: none;
@@ -1330,9 +1333,11 @@ function Navbar() {
                   >
                     <img
                       src={
-                        product.image ||
-                        product.images?.[0] ||
-                        "/placeholder.png"
+                        toPublicApiUrl(
+                          product.image ||
+                            product.images?.[0] ||
+                            "/placeholder.png"
+                        )
                       }
                       alt={product.name}
                       style={styles.suggestionImage}
@@ -1402,10 +1407,10 @@ function Navbar() {
               to="/dashboard"
               className="amruthahara-account"
               style={styles.accountButton}
-              title="My Account"
+             
             >
               <FaUser size={12} />
-              My Account
+              
             </Link>
 
           )}
